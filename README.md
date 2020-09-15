@@ -7,5 +7,7 @@ Follow this guide to get the proyect working locally on your machine in a couple
 ## Database Connection
 
 The project has no connection strings, which means that EntityFramework will use Visual Studio's **included** SQLServer instance as its database engine by default. If you want to connect to the database from your SQLServerManagementStudio, you can use the following server names coupled with the default Windows Authentication:
-> ****Visual Studio 2012**:** (localdb)\v11.0
-> ****>= Visual Studio 2015**:** (localdb)\MSSQLLocalDB
+- ****Visual Studio 2012**:**
+> (localdb)\v11.0
+- ****>= Visual Studio 2015**:**
+> (localdb)\MSSQLLocalDB
