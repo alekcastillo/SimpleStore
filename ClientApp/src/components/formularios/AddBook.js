@@ -7,11 +7,15 @@ export class AddBook extends Component {
         return (
             <div>
                 <form class="form-horizontal">
-                    <legend font-weight-bold>Agregar película</legend>
+                    <legend font-weight-bold>Agregar libro</legend>
                     <hr class="sidebar-divider" />
                     <div class="form-group">
                         <label for="nombre">Nombre: </label>
-                        <input required type="text" placeholder="Inserte el nombre de la película" class="form-control" name="nombre" id="nombre" />
+                        <input required type="text" placeholder="Inserte el nombre del libro" class="form-control" name="nombre" id="nombre" />
+                    </div>
+                    <div class="form-group">
+                        <label for="isbn">ISBN: </label>
+                        <input required type="text" placeholder="Inserte el ISBN del libro" class="form-control" name="isbn" id="isbn" />
                     </div>
                     <div class="form-row">
                         <div class="col">
@@ -42,8 +46,8 @@ export class AddBook extends Component {
                             <input required type="date" placeholder="Inserte la fecha de publicación" class="form-control" name="releasedate" id="releasedate" />
                         </div>
                         <div class="col">
-                            <label for="minutes">Duración (minutos): </label>
-                            <input required type="text" placeholder="Minutos" class="form-control" name="minutes" id="minutes" />
+                            <label for="pages">Páginas: </label>
+                            <input required type="text" placeholder="Cantidad páginas" class="form-control" name="pages" id="pages" />
                         </div>
                     </div>
                     <div class="form-row">
@@ -60,8 +64,9 @@ export class AddBook extends Component {
                         <label for="fileext">Formato: </label>
                         <select class="custom-select" required name="fileext" id="fileext">
                             <option selected disabled value='' >Seleccione un formato</option>
-                            <option value='1'>UHD</option>
-                            <option value='2'>mp4</option>
+                            <option value='1'>pub</option>
+                            <option value='2'>awz</option>
+                            <option value='2'>pdf</option>
                         </select>
                     </div>
                     <div class="form-group">
