@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
 
-export class AddFilm extends Component {
-    static displayName = AddFilm.name;
+export class AddBook extends Component {
+    static displayName = AddBook.name;
 
     render() {
         return (
             <div>
                 <form class="form-horizontal">
-                    <legend font-weight-bold>Agregar película</legend>
+                    <legend font-weight-bold>Agregar libro</legend>
                     <div class="float-right mx-auto my-3">
                         <button id="clear" name="clear" class="btn btn-warning">Limpiar todo</button>
                     </div>
                     <hr class="sidebar-divider" />
-                    <div class="form-group">
+
+                    <div class="form-group my-3">
                         <label for="nombre">Nombre: </label>
-                        <input required type="text" placeholder="Inserte el nombre de la película" class="form-control" name="nombre" id="nombre" />
+                        <input required type="text" placeholder="Inserte el nombre del libro" class="form-control" name="nombre" id="nombre" />
                     </div>
                     <div class="form-group">
-                        <label for="actor">Nombre de los actores: </label>
-                        <textarea required type="text" placeholder="Inserte el nombre de los actores" class="form-control" name="actor" id="actor" />
+                        <label for="author">Nombre de los autores: </label>
+                        <textarea required type="text" placeholder="Inserte el nombre de los autores" class="form-control" name="author" id="author" />
+                    </div>
+                    <div class="form-group">
+                        <label for="isbn">ISBN: </label>
+                        <input required type="text" placeholder="Inserte el ISBN del libro" class="form-control" name="isbn" id="isbn" />
                     </div>
                     <div class="form-row">
                         <div class="col">
@@ -49,8 +54,8 @@ export class AddFilm extends Component {
                             <input required type="date" placeholder="Inserte la fecha de publicación" class="form-control" name="releasedate" id="releasedate" />
                         </div>
                         <div class="col">
-                            <label for="minutes">Duración (minutos): </label>
-                            <input required type="text" placeholder="Minutos" class="form-control" name="minutes" id="minutes" />
+                            <label for="pages">Páginas: </label>
+                            <input required type="number" min="0" placeholder="Cantidad páginas" class="form-control" name="pages" id="pages" />
                         </div>
                     </div>
                     <div class="form-row">
@@ -67,8 +72,9 @@ export class AddFilm extends Component {
                         <label for="fileext">Formato: </label>
                         <select class="custom-select" required name="fileext" id="fileext">
                             <option selected disabled value='' >Seleccione un formato</option>
-                            <option value='1'>UHD</option>
-                            <option value='2'>mp4</option>
+                            <option value='1'>pub</option>
+                            <option value='2'>awz</option>
+                            <option value='2'>pdf</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -100,8 +106,11 @@ export class AddFilm extends Component {
                     <div>
                         <button id="save" name="save" class="btn btn-primary">Guardar</button>
                         <button id="cancel" name="cancel" class="btn btn-default">Cancelar</button>
+
+
                     </div>
                 </form>
+
             </div>
         );
     }
