@@ -11,6 +11,8 @@ import { AddMusic } from './components/formularios/AddMusic';
 import { AddRole } from './components/formularios/AddRole';
 import { AddUserForm } from './components/formularios/AddUserForm';
 import { ViewIventory } from './components/formularios/ViewInventory';
+import { Cart } from './components/formularios/Cart';
+import { Payment } from './components/formularios/Payment';
 import './custom.css'
 
 export default class App extends Component {
@@ -28,6 +30,8 @@ export default class App extends Component {
         <Route path='/add-role' component={AddRole} />
         <Route path='/add-user' component={AddUserForm} />
         <Route path='/inventory' component={ViewIventory}/>
+        <Route path='/cart' component={Cart}/>
+        <Route path='/payment' component={Payment}/>
       </Layout>
     );
   }
