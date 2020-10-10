@@ -6,6 +6,7 @@ import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { AddFilm } from './components/formularios/AddFilm';
 import { AddBook } from './components/formularios/AddBook';
+import { AddMusic } from './components/formularios/AddMusic';
 import './custom.css'
 
 export default class App extends Component {
@@ -18,6 +19,7 @@ export default class App extends Component {
         <Route path='/counter' component={Counter} />
         <Route path='/add-movie' component={AddFilm} />
         <Route path='/add-book' component={AddBook}/>
+        <Route path='/add-music' component={AddMusic}/>
       </Layout>
     );
   }

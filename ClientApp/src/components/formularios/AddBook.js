@@ -14,6 +14,10 @@ export class AddBook extends Component {
                         <input required type="text" placeholder="Inserte el nombre del libro" class="form-control" name="nombre" id="nombre" />
                     </div>
                     <div class="form-group">
+                        <label for="author">Nombre de los autores: </label>
+                        <textarea required type="text" placeholder="Inserte el nombre de los autores" class="form-control" name="author" id="author" />
+                    </div>
+                    <div class="form-group">
                         <label for="isbn">ISBN: </label>
                         <input required type="text" placeholder="Inserte el ISBN del libro" class="form-control" name="isbn" id="isbn" />
                     </div>
@@ -47,7 +51,7 @@ export class AddBook extends Component {
                         </div>
                         <div class="col">
                             <label for="pages">Páginas: </label>
-                            <input required type="text" placeholder="Cantidad páginas" class="form-control" name="pages" id="pages" />
+                            <input required type="number" min="0" placeholder="Cantidad páginas" class="form-control" name="pages" id="pages" />
                         </div>
                     </div>
                     <div class="form-row">
