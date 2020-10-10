@@ -11,6 +11,9 @@ export class Payment extends Component {
                     <div class="float-right mx-auto my-3">
                         <button id="clear" name="clear" class="btn btn-link">Selecciona una tarjeta</button>
                     </div>
+                    <div class="float-right mx-auto my-3">
+                        <button id="clear" name="clear" class="btn btn-link">Paga con EasyPay</button>
+                    </div>
                     <hr class="sidebar-divider" />
                     <div class="form-group">
                         <label for="nombre">Nombre del titular: </label>
@@ -20,7 +23,6 @@ export class Payment extends Component {
                         <label for="cardnumber">Número de la tarjeta: </label>
                         <input required type="password" placeholder="Inserte el número" class="form-control" name="cardnumber" id="cardnumber" />
                     </div>
-                   
                     <div class="form-row">
                         <div class="col">
                             <label for="expdate">Fecha de expiración: </label>
