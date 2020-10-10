@@ -45,19 +45,25 @@ export class NavMenu extends Component {
                 </NavItem>
             
                 <NavItem>
-                  <NavLink tag={Link} className="text-light" to="/add-movie">Agregar pelicula</NavLink>
+                  <NavLink tag={Link} className="text-light" to="/add-movie">Peliculas</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-light" to="/add-book">Agregar libro</NavLink>
+                  <NavLink tag={Link} className="text-light" to="/add-book">Libros</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-light" to="/add-music">Agregar música</NavLink>
+                  <NavLink tag={Link} className="text-light" to="/add-music">Musica</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-light" to="/add-role">Agregar rol de empleado</NavLink>
+                  <NavLink tag={Link} className="text-light" to="/add-role">Roles</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink tag={Link} className="text-light" to="/add-user">Usuarios</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} className="text-light" to="/inventory">Inventario</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink tag={Link} className="text-light" to="/login">Iniciar sesión</NavLink>
                 </NavItem>
               </ul>
             </Collapse>
