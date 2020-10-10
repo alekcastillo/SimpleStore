@@ -8,6 +8,9 @@ export class AddFilm extends Component {
             <div>
                 <form class="form-horizontal">
                     <legend font-weight-bold>Agregar película</legend>
+                    <div class="float-right mx-auto my-3">
+                        <button id="clear" name="clear" class="btn btn-warning">Limpiar todo</button>
+                    </div>
                     <hr class="sidebar-divider" />
                     <div class="form-group">
                         <label for="nombre">Nombre: </label>
@@ -95,7 +98,7 @@ export class AddFilm extends Component {
                     </div>
 
                     <div>
-                        <button id="insertar" name="insertar" class="btn btn-success">Insertar</button>
+                        <button id="save" name="save" class="btn btn-primary">Guardar</button>
                         <button id="cancel" name="cancel" class="btn btn-default">Cancelar</button>
                     </div>
                 </form>
