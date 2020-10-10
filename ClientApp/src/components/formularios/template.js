@@ -1,17 +1,28 @@
 import React, { Component } from 'react';
 
-export class AddFilm extends Component {
-    static displayName = AddFilm.name;
+export class AddMusic extends Component {
+    static displayName = AddMusic.name;
 
     render() {
         return (
             <div>
                 <form class="form-horizontal">
-                    <legend font-weight-bold>Agregar película</legend>
+                    <legend font-weight-bold>Agregar música</legend>
+                    <div class="float-right mx-auto my-3">
+                        <button id="clear" name="clear" class="btn btn-warning">Limpiar todo</button>
+                    </div>
                     <hr class="sidebar-divider" />
                     <div class="form-group">
-                        <label for="nombre">Nombre: </label>
-                        <input required type="text" placeholder="Inserte el nombre de la película" class="form-control" name="nombre" id="nombre" />
+                        <label for="nombre">Nombre de la canción: </label>
+                        <input required type="text" placeholder="Inserte el nombre de la canción" class="form-control" name="nombre" id="nombre" />
+                    </div>
+                    <div class="form-group">
+                        <label for="artist">Nombre de los intérpretes: </label>
+                        <textarea required type="text" placeholder="Inserte el nombre de los intérpretes" class="form-control" name="artist" id="artist" />
+                    </div>
+                    <div class="form-group">
+                        <label for="album">Nombre del álbum: </label>
+                        <input required type="text" placeholder="Inserte el nombre del álbum" class="form-control" name="album" id="album" />
                     </div>
                     <div class="form-row">
                         <div class="col">
@@ -19,9 +30,9 @@ export class AddFilm extends Component {
                                 <label for="category">Categoría: </label>
                                 <select class="custom-select" required name="category" id="category">
                                     <option selected disabled value='' >Seleccione una categoría</option>
-                                    <option value='1'>Drama</option>
-                                    <option value='2'>Comedia</option>
-                                    <option value='3'>Terror</option>
+                                    <option value='1'>Metal</option>
+                                    <option value='2'>Hard Rock</option>
+                                    <option value='3'>Punk</option>
                                 </select>
                             </div>
                         </div>
@@ -43,7 +54,7 @@ export class AddFilm extends Component {
                         </div>
                         <div class="col">
                             <label for="minutes">Duración (minutos): </label>
-                            <input required type="text" placeholder="Minutos" class="form-control" name="minutes" id="minutes" />
+                            <input required type="number" min="0" placeholder="Minutos" class="form-control" name="minutes" id="minutes" />
                         </div>
                     </div>
                     <div class="form-row">
@@ -57,13 +68,25 @@ export class AddFilm extends Component {
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="fileext">Tipo interpretación: </label>
+                        <select class="custom-select" required name="interpret" id="fileinterpretext">
+                            <option selected disabled value='' >Seleccione un tipo</option>
+                            <option value='1'>Solo</option>
+                            <option value='2'>Orqueta</option>
+                            <option value='2'>Banda</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="fileext">Formato: </label>
                         <select class="custom-select" required name="fileext" id="fileext">
                             <option selected disabled value='' >Seleccione un formato</option>
-                            <option value='1'>UHD</option>
-                            <option value='2'>mp4</option>
+                            <option value='1'>mp3</option>
+                            <option value='2'>aac</option>
+                            <option value='2'>wav</option>
+                            <option value='2'>aiff</option>
+                            <option value='2'>pcm</option>
                         </select>
-                    </div>
+                    </div>                    
                     <div class="form-group">
                         <label for="ruta">Ruta archivo: </label>
                         <input required type="text" placeholder="Inserte la ruta del archivo" class="form-control" name="ruta" id="ruta" />
@@ -91,7 +114,7 @@ export class AddFilm extends Component {
                     </div>
 
                     <div>
-                        <button id="insertar" name="insertar" class="btn btn-success">Insertar</button>
+                    <button id="save" name="save" class="btn btn-primary">Guardar</button>
                         <button id="cancel" name="cancel" class="btn btn-default">Cancelar</button>
                     </div>
                 </form>
