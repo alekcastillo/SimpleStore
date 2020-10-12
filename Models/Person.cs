@@ -19,7 +19,4 @@ public class Person
 		public string Nationality { get; private set; }
 		public string RegistryDate { get; private set; }
 		public string SecondName { get; private set; }
-
-
-	
 }

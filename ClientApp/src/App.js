@@ -31,7 +31,8 @@ export default class App extends Component {
         <Route path='/add-user' component={AddUserForm} />
         <Route path='/inventory' component={ViewIventory}/>
         <Route path='/cart' component={Cart}/>
-        <Route path='/payment' component={Payment}/>
+        <Route path='/payment' component={Payment} />
+        <Route path='/fetch' component={FetchData} />
       </Layout>
     );
   }

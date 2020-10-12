@@ -13,10 +13,10 @@ public class Product
 		public Guid Id { get; private set; }
 		public string Name { get; private set; }
 		public string PublicationDate { get; private set; }
-		public string Prize { get; private set; }
+		public float Price { get; private set; }
 		public string Inventory { get; private set; }
 		public string Format { get; private set; }
 		public string Producer { get; private set; }
-		public string Archive { get; private set; }
+		public string FilePath { get; private set; }
 	
 }

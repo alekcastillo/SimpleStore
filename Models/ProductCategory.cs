@@ -7,12 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 /// </summary>
 public class ProductCategory
 {
-	
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Key]
 		public Guid Id { get; private set; }
-		public string NameCategory { get; private set; }
-		public string DetailCategory { get; private set; }
-
-	
+		public string Name { get; private set; }
+		public string Description { get; private set; }
 }

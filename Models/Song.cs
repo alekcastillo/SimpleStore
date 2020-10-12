@@ -12,6 +12,6 @@ public class Song
 		[Key]
 		public Guid Id { get; private set; }
 		public Product Product { get; private set; }
-		public string MinutesLong { get; private set; }
+		public float Length { get; private set; }
 	
 }

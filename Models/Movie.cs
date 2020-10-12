@@ -7,10 +7,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 /// </summary>
 public class Movie
 {
-	
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Key]
-		public Guid Id { get; private set; }
+		public string Id { get; private set; }
 		public Product Product { get; private set; }
 		public string Producer { get; private set; }
 		public string MinutesLong { get; private set; }

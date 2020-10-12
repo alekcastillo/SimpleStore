@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace SimpleStore.Models
 {
-    public class User
+    public class Consecutive
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public string Email { get; private set; }
-        public string Password { get; private set; }
-        public List<Role> Roles { get; private set; }
+        public Guid Id { get; private set; }
+        public string Table { get; private set; }
+        public int Current { get; private set; }
+        public string Prefix { get; private set; }
+        public int Min { get; private set; }
+        public int Max { get; private set; }
     }
 }
