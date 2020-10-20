@@ -5,17 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SimpleStore.Models
+namespace SimpleStore.Entities
 {
-    public class Consecutive
+    // Requirement 5.4.1
+    public class ProductMovieActor : BaseCategoryEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; private set; }
-        public string Table { get; private set; }
-        public int Current { get; private set; }
-        public string Prefix { get; private set; }
-        public int Min { get; private set; }
-        public int Max { get; private set; }
     }
 }

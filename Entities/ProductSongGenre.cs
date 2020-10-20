@@ -5,13 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SimpleStore.Models
+namespace SimpleStore.Entities
 {
-    public class Country
+	// Requirement 4.4.1
+	public class ProductSongGenre : BaseCategoryEntity
 	{
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Key]
 		public Guid Id { get; private set; }
-		public string Name { get; private set; }
 	}
 }
