@@ -15,6 +15,9 @@ namespace SimpleStore.Entities
         public Guid Id { get; private set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
+        public string FirstName { get; private set; }
+        public string LastName1 { get; private set; }
+        public string LastName2 { get; private set; }
         public List<UserRole> Roles { get; private set; }
     }
 }

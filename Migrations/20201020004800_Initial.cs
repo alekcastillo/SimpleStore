@@ -130,7 +130,10 @@ namespace SimpleStore.Migrations
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: false),
                     Email = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true)
+                    Password = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName1 = table.Column<string>(nullable: true),
+                    LastName2 = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

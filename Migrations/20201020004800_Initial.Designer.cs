@@ -10,7 +10,7 @@ using SimpleStore.Infrastructure;
 namespace SimpleStore.Migrations
 {
     [DbContext(typeof(SimpleStoreDbContext))]
-    [Migration("20201020002848_Initial")]
+    [Migration("20201020004800_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -465,6 +465,15 @@ namespace SimpleStore.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName2")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
