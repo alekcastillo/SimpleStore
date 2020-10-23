@@ -9,9 +9,26 @@ namespace SimpleStore.Infrastructure
 {
     public class SimpleStoreDbContext : DbContext
     {
+        public DbSet<DownloadLog> DownloadLogs { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<PaymentMethodCard> PaymentMethodCards { get; set; }
+        public DbSet<PaymentMethodEasyPay> PaymentMethodEasyPays { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductBook> ProductBooks { get; set; }
+        public DbSet<ProductBookSubject> ProductBookSubjects { get; set; }
+        public DbSet<ProductMovie> ProductMovies { get; set; }
+        public DbSet<ProductMovieActor> ProductMovieActors { get; set; }
+        public DbSet<ProductMovieGenre> ProductMovieGenres { get; set; }
+        public DbSet<ProductSong> ProductSongs { get; set; }
+        public DbSet<ProductSongGenre> ProductSongGenres { get; set; }
+        public DbSet<SystemConfiguration> SystemConfigurations { get; set; }
+        public DbSet<TableConsecutive> TableConsecutives { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+
         public SimpleStoreDbContext(DbContextOptions<SimpleStoreDbContext> options)
-            : base(options)
-        { }
+            : base(options) {}
 
         public override int SaveChanges()
         {
@@ -29,8 +46,5 @@ namespace SimpleStore.Infrastructure
 
             return base.SaveChanges();
         }
-
-        public DbSet<User> Users { get; set; }
-        //public DbSet<Consecutive> Consecutives { get; set; }
     }
 }
