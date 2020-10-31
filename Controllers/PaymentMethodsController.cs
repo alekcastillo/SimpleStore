@@ -78,7 +78,7 @@ namespace SimpleStore.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<PaymentMethod>> PostPaymentMethod(PaymentMethod paymentMethod)
+        public async Task<ActionResult<PaymentMethod>> PostPaymentMethod([FromBody]PaymentMethod paymentMethod)
         {
             _context.PaymentMethods.Add(paymentMethod);
             await _context.SaveChangesAsync();

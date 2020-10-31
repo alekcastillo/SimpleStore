@@ -25,7 +25,7 @@ namespace simplestore
             services.AddDbContext<SimpleStoreDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SimpleStoreDb"))
             );
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

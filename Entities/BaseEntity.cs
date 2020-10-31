@@ -10,5 +10,21 @@ namespace SimpleStore.Entities
     {
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+
+        public BaseEntity(DateTime createdDate, DateTime updatedDate)
+        {
+            CreatedDate = createdDate;
+            UpdatedDate = updatedDate;
+        }
+
+        public BaseEntity()
+        {
+
+        }
+
     }
+
+
+
+
 }
