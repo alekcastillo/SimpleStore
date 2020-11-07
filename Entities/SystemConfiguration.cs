@@ -14,12 +14,12 @@ namespace SimpleStore.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public Guid Id { get; private set; }
-        public string BooksSavePath { get; private set; }
-        public string BookPreviewsSavePath { get; private set; }
-        public string SongsSavePath { get; private set; }
-        public string SongPreviewsSavePath { get; private set; }
-        public string MoviesSavePath { get; private set; }
-        public string MoviePreviewsSavePath { get; private set; }
+        public Guid Id { get; set; }
+        public string BooksSavePath { get; set; }
+        public string BookPreviewsSavePath { get; set; }
+        public string SongsSavePath { get; set; }
+        public string SongPreviewsSavePath { get; set; }
+        public string MoviesSavePath { get; set; }
+        public string MoviePreviewsSavePath { get; set; }
     }
 }

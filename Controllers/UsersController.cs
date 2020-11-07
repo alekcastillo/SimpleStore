@@ -87,10 +87,10 @@ namespace SimpleStore.Controllers
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         
                 [Microsoft.AspNetCore.Mvc.HttpPost]
-                public async Task<ActionResult> PostUser([Microsoft.AspNetCore.Mvc.FromBody] user user)//user en minuscula es una clase nueva, User en mayuscula es el entity
+                public async Task<ActionResult> PostUser([Microsoft.AspNetCore.Mvc.FromBody] User user)//user en minuscula es una clase nueva, User en mayuscula es el entity
                 {
 
-                    //_context.Users.Add(user);
+                    _context.Users.Add(user);
                     await _context.SaveChangesAsync();
                     return CreatedAtAction("GetUser", new { id = user.Id }, user);
                 }

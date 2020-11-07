@@ -9,9 +9,9 @@ namespace SimpleStore.Entities
 	public class ProductMovie : BaseEntity
 	{
 		[Key]
-		public string Code { get; private set; }
-		public Product Product { get; private set; }
-		public ProductMovieGenre Genre { get; private set; }
-		public List<ProductMovieActor> Actors { get; private set; }
+		public string Code { get; set; }
+		public Product Product { get; set; }
+		public ProductMovieGenre Genre { get; set; }
+		public List<ProductMovieActor> Actors { get; set; }
 	}
 }

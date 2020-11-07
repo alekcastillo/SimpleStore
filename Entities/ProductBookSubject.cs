@@ -12,6 +12,6 @@ namespace SimpleStore.Entities
 	{
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Key]
-		public Guid Id { get; private set; }
+		public Guid Id { get; set; }
 	}
 }

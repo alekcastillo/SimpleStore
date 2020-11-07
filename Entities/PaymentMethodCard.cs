@@ -9,12 +9,12 @@ namespace SimpleStore.Entities
 	{
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Key]
-		public Guid Id { get; private set; }
-		public PaymentMethod PaymentMethod { get; private set; }
-		public string CardNumber { get; private set; }
-		public int ExpirationMonth { get; private set; }
-		public int ExpirationYear { get; private set; }
+		public Guid Id { get; set; }
+		public PaymentMethod PaymentMethod { get; set; }
+		public string CardNumber { get; set; }
+		public int ExpirationMonth { get; set; }
+		public int ExpirationYear { get; set; }
 		public int CVV { get; private set; }
-		public string CardProvider { get; private set; }
+		public string CardProvider { get; set; }
 	}
 }

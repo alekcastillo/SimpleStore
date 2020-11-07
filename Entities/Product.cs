@@ -11,14 +11,14 @@ namespace SimpleStore.Entities
 	{
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Key]
-		public Guid Id { get; private set; }
-		public string Title { get; private set; }
-		public float Price { get; private set; }
-		public int ReleaseYear { get; private set; }
-		public string Language { get; private set; }
-		public ProductType Type { get; private set; }
-		public string FilePath { get; private set; }
-		public string PreviewFilePath { get; private set; }
+		public Guid Id { get; set; }
+		public string Title { get; set; }
+		public float Price { get; set; }
+		public int ReleaseYear { get; set; }
+		public string Language { get; set; }
+		public ProductType Type { get; set; }
+		public string FilePath { get; set; }
+		public string PreviewFilePath { get; set; }
 
 	}
 }

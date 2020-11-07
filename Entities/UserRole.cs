@@ -9,9 +9,9 @@ namespace SimpleStore.Entities
 	{
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Key]
-		public Guid Id { get; private set; }
-		public string Title { get; private set; }
-		public string Description { get; private set; } 
+		public Guid Id { get; set; }
+		public string Title { get; set; }
+		public string Description { get; set; } 
 
 
 	}

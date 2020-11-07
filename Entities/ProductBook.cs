@@ -8,10 +8,10 @@ namespace SimpleStore.Entities
 	public class ProductBook : BaseEntity
 	{
 		[Key]
-		public string Code { get; private set; }
-		public Product Product { get; private set; }
-		public ProductBookSubject Subject { get; private set; }
-		public string Author { get; private set; }
-		public string Publisher { get; private set; }
+		public string Code { get; set; }
+		public Product Product { get; set; }
+		public ProductBookSubject Subject { get; set; }
+		public string Author { get; set; }
+		public string Publisher { get; set; }
 	}
 }

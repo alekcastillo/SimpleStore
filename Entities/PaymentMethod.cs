@@ -14,7 +14,7 @@ namespace SimpleStore.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public Guid Id { get; private set; }
-        public PaymentMethodType Type { get; private set; }
+        public Guid Id { get; set; }
+        public PaymentMethodType Type { get; set; }
     }
 }

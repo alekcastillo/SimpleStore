@@ -13,13 +13,13 @@ namespace SimpleStore.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public Guid Id { get; private set; }
-        public string Email { get; private set; }
-        public string Password { get; private set; }
-        public string FirstName { get; private set; }
-        public string LastName1 { get; private set; }
-        public string LastName2 { get; private set; }
-        public List<UserRole> Roles { get; private set; }
+        public Guid Id { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string FirstName { get; set; }
+        public string LastName1 { get; set; }
+        public string LastName2 { get; set; }
+        public List<UserRole> Roles { get; set; }
 
         public User(Guid id, string email, string password, string firstName, string lastName1, string lastName2, List<UserRole> roles)
         {

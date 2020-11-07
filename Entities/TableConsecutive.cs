@@ -12,13 +12,13 @@ namespace SimpleStore.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public Guid Id { get; private set; }
-        public string Table { get; private set; }
-        public int Current { get; private set; }
-        public bool UsesPrefix { get; private set; }
-        public string Prefix { get; private set; }
-        public bool UsesRange { get; private set; }
-        public int? RangeMin { get; private set; }
-        public int? RangeMax { get; private set; }
+        public Guid Id { get; set; }
+        public string Table { get; set; }
+        public int Current { get; set; }
+        public bool UsesPrefix { get; set; }
+        public string Prefix { get; set; }
+        public bool UsesRange { get; set; }
+        public int? RangeMin { get; set; }
+        public int? RangeMax { get; set; }
     }
 }
