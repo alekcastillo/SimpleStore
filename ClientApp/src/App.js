@@ -4,15 +4,16 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
-import { LoginForm } from './components/formularios/LoginForm';
-import { AddFilm } from './components/formularios/AddFilm';
-import { AddBook } from './components/formularios/AddBook';
-import { AddMusic } from './components/formularios/AddMusic';
-import { AddRole } from './components/formularios/AddRole';
-import { AddUserForm } from './components/formularios/AddUserForm';
-import { ViewIventory } from './components/formularios/ViewInventory';
-import { Cart } from './components/formularios/Cart';
-import { Payment } from './components/formularios/Payment';
+import { LoginForm } from './components/forms/LoginForm';
+import { AddFilm } from './components/forms/AddFilm';
+import { AddBook } from './components/forms/AddBook';
+import { AddMusic } from './components/forms/AddMusic';
+import { AddRole } from './components/forms/AddRole';
+import { AddUserForm } from './components/forms/AddUserForm';
+import { ViewIventory } from './components/forms/ViewInventory';
+import { UsersList } from './components/views/UsersList';
+import { Cart } from './components/forms/Cart';
+import { Payment } from './components/forms/Payment';
 import './custom.css'
 
 export default class App extends Component {
@@ -33,6 +34,7 @@ export default class App extends Component {
         <Route path='/cart' component={Cart}/>
         <Route path='/payment' component={Payment} />
         <Route path='/fetch' component={FetchData} />
+        <Route path='/users' component={UsersList} />
       </Layout>
     );
   }

@@ -1,6 +1,6 @@
 using System;
 
-namespace simplestore
+namespace SimpleStore
 {
     public class WeatherForecast
     {

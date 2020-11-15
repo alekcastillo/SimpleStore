@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SimpleStore.Infrastructure;
 
-namespace simplestore.Controllers
+namespace SimpleStore.Controllers
 {
     [ApiController]
     [Route("[controller]")]

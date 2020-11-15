@@ -10,8 +10,8 @@ using SimpleStore.Infrastructure;
 namespace SimpleStore.Migrations
 {
     [DbContext(typeof(SimpleStoreDbContext))]
-    [Migration("20201030051105_Init")]
-    partial class Init
+    [Migration("20201107202624_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -20,39 +20,5 @@ namespace SimpleStore.Entities
         public string LastName1 { get; set; }
         public string LastName2 { get; set; }
         public List<UserRole> Roles { get; set; }
-
-        public User(Guid id, string email, string password, string firstName, string lastName1, string lastName2, List<UserRole> roles)
-        {
-            Id = id;
-            Email = email;
-            Password = password;
-            FirstName = firstName;
-            LastName1 = lastName1;
-            LastName2 = lastName2;
-            Roles = roles;
-        }
-
-        public User(string email, string password, string firstName, string lastName1, string lastName2, List<UserRole> roles)
-        {
-            Email = email;
-            Password = password;
-            FirstName = firstName;
-            LastName1 = lastName1;
-            LastName2 = lastName2;
-            Roles = roles;
-        }
-
-        public User(string email, string password, string firstName, string lastName1, string lastName2)
-        {
-            Email = email;
-            Password = password;
-            FirstName = firstName;
-            LastName1 = lastName1;
-            LastName2 = lastName2;        }
-
-        public User()
-        {
-
-        }
     }
 }

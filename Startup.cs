@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using SimpleStore.Infrastructure;
 
-namespace simplestore
+namespace SimpleStore
 {
     public class Startup
     {
