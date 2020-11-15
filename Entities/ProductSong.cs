@@ -9,13 +9,13 @@ namespace SimpleStore.Entities
 	public class ProductSong
 	{
 		[Key]
-		public string Code { get; private set; }
-		public Product Product { get; private set; }
-		public ProductSongGenre Genre { get; private set; }
-		public string Artist { get; private set; }
-		public string Album { get; private set; }
-		public SongInterpretationType InterpretationType { get; private set; }
-		public string Country { get; private set; }
-		public string Label { get; private set; }
+		public string Code { get; set; }
+		public Product Product { get; set; }
+		public ProductSongGenre Genre { get; set; }
+		public string Artist { get; set; }
+		public string Album { get; set; }
+		public SongInterpretationType InterpretationType { get; set; }
+		public string Country { get; set; }
+		public string Label { get; set; }
 	}
 }

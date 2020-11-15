@@ -9,10 +9,10 @@ namespace SimpleStore.Entities
 	{
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Key]
-		public Guid Id { get; private set; }
-		public PaymentMethod PaymentMethod { get; private set; }
-		public int AccountId { get; private set; }
-		public int SecurityNumber { get; private set; }
-		public string Password { get; private set; }
+		public Guid Id { get; set; }
+		public PaymentMethod PaymentMethod { get; set; }
+		public int AccountId { get; set; }
+		public int SecurityNumber { get; set; }
+		public string Password { get; set; }
 	}
 }

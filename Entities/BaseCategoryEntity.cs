@@ -8,6 +8,6 @@ namespace SimpleStore.Entities
     // Used to create category-like tables
     public class BaseCategoryEntity : BaseEntity
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
     }
 }

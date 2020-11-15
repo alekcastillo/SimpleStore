@@ -9,12 +9,12 @@ namespace SimpleStore.Entities
 	{
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Key]
-		public Guid Id { get; private set; }
-		public Product Product { get; private set; }
+		public Guid Id { get; set; }
+		public Product Product { get; set; }
 		public User Buyer { get; private set; }
-		public float AmountPayed { get; private set; }
+		public float AmountPayed { get; set; }
 		// TODO: how to implement easypay?
-		public PaymentMethodCard PaymentMethodCard { get; private set; }
+		public PaymentMethodCard PaymentMethodCard { get; set; }
 
 	}
 }
