@@ -60,11 +60,9 @@ export class UsersList extends Component {
         })
     }
 
-
     handleChange(e) {
         // We update the currentRow each time a value in the form changes
         const { name, value } = e.target;
-        console.log(name, ':', value);
         this.setState(prevState => ({
             currentRow: {
                 ...prevState.currentRow, [name]: value
@@ -111,6 +109,13 @@ export class UsersList extends Component {
     }
 
     async handleSave(e) {
+        for (const [key, value] of Object.entries(UsersList.emptyRow)) {
+            if (this.state.currentRow[key] == value) {
+                this.showAlert('Todos los campos deben ser llenados!', 'danger');
+                this.toggleEditModal();
+                return;
+            }
+        }
         if (this.state.currentRow.id) {
             await this.editRow();
         } else {
