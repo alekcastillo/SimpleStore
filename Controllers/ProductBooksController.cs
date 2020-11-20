@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SimpleStore.DAO;
 using SimpleStore.Entities;
 using SimpleStore.Infrastructure;
+using SimpleStore.Entities.Attributes;
 
 namespace SimpleStore.Controllers
 {
@@ -25,7 +27,10 @@ namespace SimpleStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductBook>>> GetProductBooks()
         {
-            return await _context.ProductBooks.ToListAsync();
+            return await _context.ProductBooks
+                .Include(productBook => productBook.Product)
+                .Include(productBook => productBook.Subject)
+                .ToListAsync();
         }
 
         // GET: api/ProductBooks/5
@@ -74,20 +79,42 @@ namespace SimpleStore.Controllers
             return NoContent();
         }
 
-        // POST: api/ProductBooks
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ProductBook>> PostProductBook(ProductBook productBook)
+        public async Task<ActionResult<ProductBook>> PostProductBook(ProductBookDAO productBookDao)
         {
-            _context.ProductBooks.Add(productBook);
+            var product = new Product();
+            product.Title = productBookDao.Title;
+            product.Price = productBookDao.Price;
+            product.ReleaseYear = productBookDao.ReleaseYear;
+            product.Language = productBookDao.Language;
+            product.Type = ProductType.Book;
+            product.FilePath = productBookDao.FilePath;
+            product.PreviewFilePath = productBookDao.PreviewFilePath;
+
+            _context.Products.Add(product);
+
+            var book = new ProductBook();
+            book.Code = ""; //Consecutivo;
+            book.Product = product;
+
+            var bookSubject = _context.ProductBookSubjects.Single(bookSubject => bookSubject.Id == productBookDao.SubjectId);
+            book.Subject = bookSubject;
+            book.Author = productBookDao.Author;
+            book.Publisher = productBookDao.Publisher;
+
+            _context.ProductBooks.Add(book);
+
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (ProductBookExists(productBook.Code))
+                if (ProductExists(product.Id))
+                {
+                    return Conflict();
+                }
+                else if (ProductBookExists(book.Code))
                 {
                     return Conflict();
                 }
@@ -97,7 +124,7 @@ namespace SimpleStore.Controllers
                 }
             }
 
-            return CreatedAtAction("GetProductBook", new { id = productBook.Code }, productBook);
+            return CreatedAtAction("GetProductBook", new { id = book.Code }, book);
         }
 
         // DELETE: api/ProductBooks/5
@@ -114,6 +141,11 @@ namespace SimpleStore.Controllers
             await _context.SaveChangesAsync();
 
             return productBook;
+        }
+
+        private bool ProductExists(Guid id)
+        {
+            return _context.Products.Any(e => e.Id == id);
         }
 
         private bool ProductBookExists(string id)

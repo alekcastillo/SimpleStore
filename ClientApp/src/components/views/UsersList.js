@@ -20,7 +20,7 @@ export class UsersList extends Component {
             editModal: false,
             deleteModal: false,
             // Current row holds the current data in the edit/create modal's form
-            currentRow: Object.assign({}, UsersList.emptyRow),
+            currentRow: this.copyEmptyRow(),
         };
         this.toggleEditModal = this.toggleEditModal.bind(this);
         this.toggleDeleteModal = this.toggleDeleteModal.bind(this);
@@ -40,10 +40,14 @@ export class UsersList extends Component {
         ReactDOM.render(element, document.getElementById('alerts'));
     }
 
+    copyEmptyRow() {
+        return Object.assign({}, UsersList.emptyRow);
+    }
+
     toggleEditModal(rowData) {
         // If the method is called with row data, 'Edit' was clicked, we set the currentRow to it
         // If not, it means 'New' or 'Cancel' was clicked, so we set it to an empty row
-        let currentRow = (rowData ? rowData : Object.assign({}, UsersList.emptyRow))
+        let currentRow = (rowData ? rowData : this.copyEmptyRow())
         this.setState({
             editModal: !this.state.editModal,
             currentRow: currentRow,
@@ -53,7 +57,7 @@ export class UsersList extends Component {
     toggleDeleteModal(rowData) {
         // If the method is called with row data, 'Edit' was clicked, we set the currentRow to it
         // If not, it means 'New' or 'Cancel' was clicked, so we set it to an empty row
-        let currentRow = (rowData ? rowData : Object.assign({}, UsersList.emptyRow))
+        let currentRow = (rowData ? rowData : this.copyEmptyRow())
         this.setState({
             deleteModal: !this.state.deleteModal,
             currentRow: currentRow,
