@@ -17,7 +17,6 @@ export class BooksLists extends Component {
         price: '',
         releaseyear: '',
         language: '',
-          
     }
 
     constructor(props) {
@@ -182,7 +181,7 @@ export class BooksLists extends Component {
                             field: "author",
                         },
                         {
-                            title: "Tema",
+                            title: "Categoria",
                             field: "subjectid",
                         },
                         {
@@ -254,13 +253,13 @@ export class BooksLists extends Component {
                     <ModalBody>
                         <div className="form-group">
                             <div className="form-group row">
-                                <label htmlFor="name" className="col-sm-2 col-form-label">Titulo</label>
+                                <label htmlFor="title" className="col-sm-2 col-form-label">Titulo</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="name"
-                                        name="name"
+                                        id="title"
+                                        name="title"
                                         value={this.state.currentRow.title}
                                         onChange={this.handleChange}
                                     />

@@ -96,27 +96,38 @@ namespace SimpleStore.Controllers
             var book = new ProductBook();
             book.Code = ""; //Consecutivo;
             book.Product = product;
+            var bookSubject = new ProductBookSubject();
 
-            var bookSubject = _context.ProductBookSubjects.Single(bookSubject => bookSubject.Id == productBookDao.SubjectId);
+            try
+            {
+                bookSubject = _context.ProductBookSubjects.Single(bookSubject => bookSubject.Id == productBookDao.SubjectId);
+            }
+            catch
+            {
+                bookSubject = null;
+            }
             book.Subject = bookSubject;
             book.Author = productBookDao.Author;
             book.Publisher = productBookDao.Publisher;
 
             _context.ProductBooks.Add(book);
 
+            
+
             try
             {
                 await _context.SaveChangesAsync();
+                //_context.SaveChanges();
             }
             catch (DbUpdateException)
             {
                 if (ProductExists(product.Id))
                 {
-                    return Conflict();
+                    //return Conflict();
                 }
                 else if (ProductBookExists(book.Code))
                 {
-                    return Conflict();
+                    //return Conflict();
                 }
                 else
                 {
