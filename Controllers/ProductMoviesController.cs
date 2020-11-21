@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SimpleStore.DAO;
 using SimpleStore.Entities;
+using SimpleStore.Entities.Attributes;
 using SimpleStore.Infrastructure;
 
 namespace SimpleStore.Controllers
@@ -74,22 +76,58 @@ namespace SimpleStore.Controllers
             return NoContent();
         }
 
+
+
         // POST: api/ProductMovies
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ProductMovie>> PostProductMovie(ProductMovie productMovie)
+        public async Task<ActionResult<ProductMovie>> PostProductMovie(ProductMovieDAO productMovieDao)
         {
-            _context.ProductMovies.Add(productMovie);
+
+            var product = new Product();
+            product.Title = productMovieDao.Title;
+            product.Price = productMovieDao.Price;
+            product.ReleaseYear = productMovieDao.ReleaseYear;
+            product.Language = productMovieDao.Language;
+            product.Type = ProductType.Movie;
+            product.FilePath = productMovieDao.FilePath;
+            product.PreviewFilePath = productMovieDao.PreviewFilePath;
+
+            _context.Products.Add(product);
+
+            var movie = new ProductMovie();
+            movie.Code = ""; //Consecutivo;
+            movie.Product = product;
+
+            var movieGenre = _context.ProductMovieGenres.Single(movieGenre => movieGenre.Id == productMovieDao.GenreId);
+
+            List<ProductMovieActor> movieActor = new List<ProductMovieActor>();
+
+            if (productMovieDao.ActorIds != null)
+            {
+                for (int i = 0; i < productMovieDao.ActorIds.Count; i++)
+                {
+                    var actor = new ProductMovieActor();
+                    actor = _context.ProductMovieActors.Single(actor => actor.Id == productMovieDao.ActorIds[i]);
+                    movieActor.Add(actor);
+                }
+            }
+            movie.Genre = movieGenre;
+
+            movie.Actors = movieActor;
+
+            _context.ProductMovies.Add(movie);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (ProductMovieExists(productMovie.Code))
+               if (ProductMovieExists(movie.Code))
                 {
-                    return Conflict();
+                    //return Conflict();
+                    
                 }
                 else
                 {
@@ -97,7 +135,7 @@ namespace SimpleStore.Controllers
                 }
             }
 
-            return CreatedAtAction("GetProductMovie", new { id = productMovie.Code }, productMovie);
+            return CreatedAtAction("GetProductMovie", new { id = movie.Code }, movie);
         }
 
         // DELETE: api/ProductMovies/5
