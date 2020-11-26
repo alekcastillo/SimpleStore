@@ -21,14 +21,12 @@ namespace SimpleStore.Controllers
             _context = context;
         }
 
-        // GET: api/TableConsecutives
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TableConsecutive>>> GetTableConsecutives()
         {
             return await _context.TableConsecutives.ToListAsync();
         }
 
-        // GET: api/TableConsecutives/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TableConsecutive>> GetTableConsecutive(Guid id)
         {
@@ -42,9 +40,6 @@ namespace SimpleStore.Controllers
             return tableConsecutive;
         }
 
-        // PUT: api/TableConsecutives/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTableConsecutive(Guid id, TableConsecutive tableConsecutive)
         {
@@ -74,9 +69,6 @@ namespace SimpleStore.Controllers
             return NoContent();
         }
 
-        // POST: api/TableConsecutives
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<TableConsecutive>> PostTableConsecutive(TableConsecutive tableConsecutive)
         {
@@ -86,7 +78,6 @@ namespace SimpleStore.Controllers
             return CreatedAtAction("GetTableConsecutive", new { id = tableConsecutive.Id }, tableConsecutive);
         }
 
-        // DELETE: api/TableConsecutives/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<TableConsecutive>> DeleteTableConsecutive(Guid id)
         {

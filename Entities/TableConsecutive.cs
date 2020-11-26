@@ -20,5 +20,27 @@ namespace SimpleStore.Entities
         public bool UsesRange { get; set; }
         public int? RangeMin { get; set; }
         public int? RangeMax { get; set; }
+
+        public string GetCurrentCode()
+        {
+            var currentCode = "";
+
+            if (UsesRange)
+            {
+                if (Current < RangeMin)
+                    throw new ValidationException("The current is bellow the range's min");
+
+                if (Current >= RangeMax)
+                    throw new ValidationException("The current is above or equal to the range's max");
+            }
+
+            if (UsesPrefix)
+                currentCode += $"{Prefix}-";
+
+            currentCode += Current.ToString();
+            Current += 1;
+
+            return currentCode;
+        }
     }
 }
