@@ -11,12 +11,12 @@ export class BooksLists extends Component {
     static displayName = BooksLists.name;
     static emptyRow = {
         title: '',
-        author: '',
-        subject: '',
-        publisher: '',
         price: '',
-        releaseyear: '',
+        releaseYear: '',
         language: '',
+        subjectId: '',
+        author: '',
+        publisher: '',
     }
 
     constructor(props) {
@@ -47,7 +47,25 @@ export class BooksLists extends Component {
     }
 
     copyEmptyRow() {
-        return Object.assign({}, BooksLists.emptyRow);
+        return JSON.parse(JSON.stringify(BooksLists.emptyRow));
+    }
+
+    flattenData(data) {
+        let flatData = [];
+        for (let rowData of data) {
+            console.log(rowData);
+            flatData.push({
+                code: rowData.code,
+                title: rowData.product.title,
+                price: rowData.product.price,
+                releaseYear: rowData.product.releaseYear,
+                language: rowData.product.language,
+                subjectId: rowData.subject.id,
+                author: rowData.author,
+                publisher: rowData.publisher,
+            })
+        }
+        return flatData;
     }
 
     toggleEditModal(rowData) {
@@ -169,12 +187,12 @@ export class BooksLists extends Component {
                     }}
                     columns={[
                         {
-                            title: "ID",
-                            field: "id",
+                            title: "Code",
+                            field: "code",
                         },
                         {
                             title: "Titulo",
-                            field: "name",
+                            field: "title",
                         },
                         {
                             title: "Autor",
@@ -182,7 +200,7 @@ export class BooksLists extends Component {
                         },
                         {
                             title: "Categoria",
-                            field: "subjectid",
+                            field: "subjectId",
                         },
                         {
                             title: "Publisher",
@@ -193,8 +211,8 @@ export class BooksLists extends Component {
                             field: "price",
                         },
                         {
-                            title: "Año de publiacion",
-                            field: "releaseyear",
+                            title: "Año de publicacion",
+                            field: "releaseYear",
                         },
                         {
                             title: "Idioma",
@@ -212,8 +230,9 @@ export class BooksLists extends Component {
                                     // by the table. We have no backend pagination
                                     let initialIndex = query.pageSize * query.page;
                                     let finalIndex = query.pageSize * (query.page + 1);
+                                    let flatResult = this.flattenData(result);
                                     resolve({
-                                        data: result.slice(initialIndex, finalIndex),
+                                        data: flatResult.slice(initialIndex, finalIndex),
                                         page: query.page,
                                         totalCount: result.length,
                                     })
@@ -286,7 +305,7 @@ export class BooksLists extends Component {
                                         className="form-control"
                                         id="subject"
                                         name="subject"
-                                        value={this.state.currentRow.subject}
+                                        value={this.state.currentRow.name}
                                         onChange={this.handleChange}
                                     /></div>
                             </div>
@@ -322,7 +341,7 @@ export class BooksLists extends Component {
                                         className="form-control"
                                         id="releaseyear"
                                         name="releaseyear"
-                                        value={this.state.currentRow.releaseyear}
+                                        value={this.state.currentRow.releaseYear}
                                         onChange={this.handleChange}
                                     /></div>
                             </div>  

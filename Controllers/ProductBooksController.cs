@@ -94,9 +94,14 @@ namespace SimpleStore.Controllers
             _context.Products.Add(product);
 
             var book = new ProductBook();
-            book.Code = ""; //Consecutivo;
-            book.Product = product;
             var bookSubject = new ProductBookSubject();
+            book.Subject = bookSubject;
+            book.Author = productBookDao.Author;
+            book.Publisher = productBookDao.Publisher;
+
+            var booksConsecutive = _context.TableConsecutives.Single(tableConsecutive => tableConsecutive.Table == "Book");
+            book.Code = booksConsecutive.GetCurrentCode();
+            book.Product = product;
 
             try
             {
@@ -106,9 +111,6 @@ namespace SimpleStore.Controllers
             {
                 bookSubject = null;
             }
-            book.Subject = bookSubject;
-            book.Author = productBookDao.Author;
-            book.Publisher = productBookDao.Publisher;
 
             _context.ProductBooks.Add(book);
 
