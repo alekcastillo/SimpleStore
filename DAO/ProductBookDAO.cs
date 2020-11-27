@@ -8,6 +8,7 @@ namespace SimpleStore.DAO
     public class ProductBookDAO
 	{
 		public Guid SubjectId { get; set; }
+		public string Code { get; set; }
 		public string Author { get; set; }
 		public string Publisher { get; set; }
 		public string Title { get; set; }

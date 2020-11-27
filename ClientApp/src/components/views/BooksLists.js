@@ -1,6 +1,3 @@
-//AUN NO FUNCIONA. LA TABLA NO RENDERS EL PRODUCTO DEL LIBRO
-
-
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import MaterialTable from "material-table";
@@ -15,6 +12,7 @@ export class BooksLists extends Component {
         releaseYear: '',
         language: '',
         subjectId: '',
+        Id: '',
         author: '',
         publisher: '',
     }
@@ -61,6 +59,7 @@ export class BooksLists extends Component {
                 releaseYear: rowData.product.releaseYear,
                 language: rowData.product.language,
                 subjectId: rowData.subject.id,
+                id: rowData.product.id,
                 author: rowData.author,
                 publisher: rowData.publisher,
             })
@@ -119,13 +118,38 @@ export class BooksLists extends Component {
 
     async editRow() {
         // We call the backend to edit the row
-        await fetch(BooksLists.baseUrl + this.state.currentRow.id, {
+        /*
+        await fetch('api/Products/' + this.state.currentRow.code, {
             method: 'PUT',
             body: JSON.stringify(this.state.currentRow),
             headers: {
                 'content-type': 'application/json'
             }
+
         }).then(response => {
+            this.toggleEditModal();
+            this.showAlert('Registro actualizado con exito', 'success');
+            // We reload the table
+            this.tableRef.current.onQueryChange();
+        }).catch(error => {
+            this.showAlert('Ha ocurrido un error!', 'danger');
+            console.log(error)
+        });
+        */
+        await fetch(BooksLists.baseUrl + this.state.currentRow.code, {
+            method: 'PUT',
+            body: JSON.stringify(this.state.currentRow),
+            headers: {
+                'content-type': 'application/json'
+            }
+
+        }).then(fetch('api/Products/' + this.state.currentRow.id, {
+            method: 'PUT',
+            body: JSON.stringify(this.state.currentRow),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })).then(response => {
             this.toggleEditModal();
             this.showAlert('Registro actualizado con exito', 'success');
             // We reload the table
@@ -144,7 +168,7 @@ export class BooksLists extends Component {
                 return;
             }
         }
-        if (this.state.currentRow.id) {
+        if (this.state.currentRow.code) {
             await this.editRow();
         } else {
             await this.addRow();
@@ -201,6 +225,10 @@ export class BooksLists extends Component {
                         {
                             title: "Categoria",
                             field: "subjectId",
+                        },
+                        {
+                            title: "Producto",
+                            field: "id",
                         },
                         {
                             title: "Publisher",
@@ -305,6 +333,18 @@ export class BooksLists extends Component {
                                         className="form-control"
                                         id="subject"
                                         name="subject"
+                                        value={this.state.currentRow.name}
+                                        onChange={this.handleChange}
+                                    /></div>
+                            </div>
+                            <div className="form-group row">
+                                <label htmlFor="product" className="col-sm-2 col-form-label">Producto</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="product"
+                                        name="product"
                                         value={this.state.currentRow.name}
                                         onChange={this.handleChange}
                                     /></div>
