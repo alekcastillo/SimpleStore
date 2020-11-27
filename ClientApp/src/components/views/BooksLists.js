@@ -374,13 +374,13 @@ export class BooksLists extends Component {
                                     /></div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="releaseyear" className="col-sm-2 col-form-label">Año de publicación</label>
+                                <label htmlFor="releaseYear" className="col-sm-2 col-form-label">Año de publicación</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="releaseyear"
-                                        name="releaseyear"
+                                        id="releaseYear"
+                                        name="releaseYear"
                                         value={this.state.currentRow.releaseYear}
                                         onChange={this.handleChange}
                                     /></div>
