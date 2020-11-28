@@ -12,7 +12,6 @@ export class BooksLists extends Component {
         releaseYear: '',
         language: '',
         subjectId: '',
-        Id: '',
         author: '',
         publisher: '',
     }
@@ -118,24 +117,6 @@ export class BooksLists extends Component {
 
     async editRow() {
         // We call the backend to edit the row
-        /*
-        await fetch('api/Products/' + this.state.currentRow.code, {
-            method: 'PUT',
-            body: JSON.stringify(this.state.currentRow),
-            headers: {
-                'content-type': 'application/json'
-            }
-
-        }).then(response => {
-            this.toggleEditModal();
-            this.showAlert('Registro actualizado con exito', 'success');
-            // We reload the table
-            this.tableRef.current.onQueryChange();
-        }).catch(error => {
-            this.showAlert('Ha ocurrido un error!', 'danger');
-            console.log(error)
-        });
-        */
         await fetch(BooksLists.baseUrl + this.state.currentRow.code, {
             method: 'PUT',
             body: JSON.stringify(this.state.currentRow),
@@ -326,29 +307,20 @@ export class BooksLists extends Component {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="subject" className="col-sm-2 col-form-label">Categoria</label>
+                                <label htmlFor="subjectId" className="col-sm-2 col-form-label">Categoria</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="subject"
-                                        name="subject"
+                                        id="subjectId"
+                                        name="subjectId"
                                         value={this.state.currentRow.name}
                                         onChange={this.handleChange}
                                     /></div>
                             </div>
-                            <div className="form-group row">
-                                <label htmlFor="product" className="col-sm-2 col-form-label">Producto</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="product"
-                                        name="product"
-                                        value={this.state.currentRow.name}
-                                        onChange={this.handleChange}
-                                    /></div>
-                            </div>
+                            
+                            
+
                             <div className="form-group row">
                                 <label htmlFor="publisher" className="col-sm-2 col-form-label">Editorial</label>
                                 <div className="col-sm-10">

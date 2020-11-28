@@ -126,13 +126,18 @@ namespace SimpleStore.Controllers
 
             var book = new ProductBook();
             var bookSubject = new ProductBookSubject();
-            book.Subject = bookSubject;
+            
             book.Author = productBookDao.Author;
             book.Publisher = productBookDao.Publisher;
 
             //var booksConsecutive = _context.TableConsecutives.Single(tableConsecutive => tableConsecutive.Table == "Book");
             //book.Code = booksConsecutive.GetCurrentCode();
             book.Product = product;
+
+            //DUMMY CODE MIENTRAS CONSTRUIMOS LA LOGICA DEL CONSECUTIVO
+            Random rnd = new Random();
+            int x = rnd.Next(1, 1000000000);
+            book.Code = x.ToString();
 
             try
             {
@@ -142,13 +147,10 @@ namespace SimpleStore.Controllers
             {
                 bookSubject = null;
             }
-
-            _context.ProductBooks.Add(book);
-
-            
-
+            book.Subject = bookSubject;
             try
             {
+                _context.ProductBooks.Add(book);
                 await _context.SaveChangesAsync();
                 //_context.SaveChanges();
             }
