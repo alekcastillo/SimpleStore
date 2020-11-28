@@ -116,6 +116,7 @@ export class TableConsecutivesList extends Component {
     }
 
     async handleSave(e) {
+        console.log(this.state.currentRow);
         for (const [key, value] of Object.entries(TableConsecutivesList.emptyRow)) {
             if (this.state.currentRow[key] == value) {
                 this.showAlert('Todos los campos deben ser llenados!', 'danger');
@@ -141,7 +142,7 @@ export class TableConsecutivesList extends Component {
             this.tableRef.current.onQueryChange();
         }).catch(error => {
             this.showAlert('Ha ocurrido un error!', 'danger');
-            console.log(error)
+            console.log(error);
         });
     }
 

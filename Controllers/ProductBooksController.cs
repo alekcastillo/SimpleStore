@@ -130,14 +130,14 @@ namespace SimpleStore.Controllers
             book.Author = productBookDao.Author;
             book.Publisher = productBookDao.Publisher;
 
-            //var booksConsecutive = _context.TableConsecutives.Single(tableConsecutive => tableConsecutive.Table == "Book");
-            //book.Code = booksConsecutive.GetCurrentCode();
+            var booksConsecutive = _context.TableConsecutives.Single(tableConsecutive => tableConsecutive.Table == "Libro");
+            book.Code = booksConsecutive.GetCurrentCode();
             book.Product = product;
 
             //DUMMY CODE MIENTRAS CONSTRUIMOS LA LOGICA DEL CONSECUTIVO
-            Random rnd = new Random();
-            int x = rnd.Next(1, 1000000000);
-            book.Code = x.ToString();
+            //Random rnd = new Random();
+            //int x = rnd.Next(1, 1000000000);
+            //book.Code = x.ToString();
 
             try
             {
@@ -147,7 +147,9 @@ namespace SimpleStore.Controllers
             {
                 bookSubject = null;
             }
+
             book.Subject = bookSubject;
+
             try
             {
                 _context.ProductBooks.Add(book);
