@@ -10,7 +10,7 @@ export class SystemConfigurationsList extends Component {
         booksSavePath: '',
         bookPreviewsSavePath: '',
         songsSavePath: '',
-        songsPreviewsSavePath: '',
+        songPreviewsSavePath: '',
         moviesSavePath: '',
         moviePreviewsSavePath: '',
     }
@@ -155,7 +155,7 @@ export class SystemConfigurationsList extends Component {
             <div style={{ maxWidth: '100%' }}>
                 <div id="alerts"></div>
                 <MaterialTable
-                    title="Consecutivos"
+                    title="Configuraciones"
                     tableRef={this.tableRef}
                     options={{
                         search: false,
@@ -181,7 +181,7 @@ export class SystemConfigurationsList extends Component {
                         },
                         {
                             title: "Ruta de previews de canciones",
-                            field: "songsPreviewsSavePath",
+                            field: "songPreviewsSavePath",
                         },
                         {
                             title: "Ruta de peliculas",
@@ -189,7 +189,7 @@ export class SystemConfigurationsList extends Component {
                         },
                         {
                             title: "Ruta de previews de peliculas",
-                            field: "moviesPreviewsSavePath",
+                            field: "moviePreviewsSavePath",
                         },
                     ]}
                     data={query =>
@@ -244,92 +244,79 @@ export class SystemConfigurationsList extends Component {
                     <ModalBody>
                         <div className="form-group">
                             <div className="form-group row">
-                                <label htmlFor="table" className="col-sm-2 col-form-label">Tabla</label>
+                                <label htmlFor="booksSavePath" className="col-sm-2 col-form-label">Ruta de libros</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="table"
-                                        name="table"
-                                        value={this.state.currentRow.table}
+                                        id="booksSavePath"
+                                        name="booksSavePath"
+                                        value={this.state.currentRow.booksSavePath}
                                         onChange={this.handleChange}
                                     />
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="current" className="col-sm-2 col-form-label">Número actual</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        id="current"
-                                        name="current"
-                                        value={this.state.currentRow.current}
-                                        onChange={this.handleChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="usesPrefix" className="col-sm-2 col-form-label">Tiene prefijo</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="checkbox"
-                                        className="form-control"
-                                        id="usesPrefix"
-                                        name="usesPrefix"
-                                        value={this.state.currentRow.usesPrefix}
-                                        onChange={this.handleChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="prefix" className="col-sm-2 col-form-label">Prefijo</label>
+                                <label htmlFor="bookPreviewsSavePath" className="col-sm-2 col-form-label">Ruta de previews de libros</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="prefix"
-                                        name="prefix"
-                                        value={this.state.currentRow.prefix}
+                                        id="bookPreviewsSavePath"
+                                        name="bookPreviewsSavePath"
+                                        value={this.state.currentRow.bookPreviewsSavePath}
                                         onChange={this.handleChange}
                                     />
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="usesRange" className="col-sm-2 col-form-label">Tiene rango</label>
+                                <label htmlFor="songsSavePath" className="col-sm-2 col-form-label">Ruta de canciones</label>
                                 <div className="col-sm-10">
                                     <input
-                                        type="checkbox"
+                                        type="text"
                                         className="form-control"
-                                        id="usesRange"
-                                        name="usesRange"
-                                        value={this.state.currentRow.usesRange}
+                                        id="songsSavePath"
+                                        name="songsSavePath"
+                                        value={this.state.currentRow.songsSavePath}
                                         onChange={this.handleChange}
                                     />
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="rangeMin" className="col-sm-2 col-form-label">Minimo del rango</label>
+                                <label htmlFor="songPreviewsSavePath" className="col-sm-2 col-form-label">Ruta de previews de canciones</label>
                                 <div className="col-sm-10">
                                     <input
-                                        type="number"
+                                        type="text"
                                         className="form-control"
-                                        id="rangeMin"
-                                        name="rangeMin"
-                                        value={this.state.currentRow.rangeMin}
+                                        id="songPreviewsSavePath"
+                                        name="songPreviewsSavePath"
+                                        value={this.state.currentRow.songPreviewsSavePath}
                                         onChange={this.handleChange}
                                     />
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="rangeMax" className="col-sm-2 col-form-label">Máximo del rango</label>
+                                <label htmlFor="moviesSavePath" className="col-sm-2 col-form-label">Ruta de peliculas</label>
                                 <div className="col-sm-10">
                                     <input
-                                        type="number"
+                                        type="text"
                                         className="form-control"
-                                        id="rangeMax"
-                                        name="rangeMax"
-                                        value={this.state.currentRow.rangeMax}
+                                        id="moviesSavePath"
+                                        name="moviesSavePath"
+                                        value={this.state.currentRow.moviesSavePath}
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label htmlFor="moviePreviewsSavePath" className="col-sm-2 col-form-label">Ruta de previews de peliculas</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="moviePreviewsSavePath"
+                                        name="moviePreviewsSavePath"
+                                        value={this.state.currentRow.moviePreviewsSavePath}
                                         onChange={this.handleChange}
                                     />
                                 </div>

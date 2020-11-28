@@ -19,33 +19,36 @@ import { SongGenreList } from './components/views/SongGenreList';
 import { UserRoleList } from './components/views/UserRoleList';
 import { Cart } from './components/forms/Cart';
 import { Payment } from './components/forms/Payment';
+import { TableConsecutivesList } from './components/views/TableConsecutivesList';
+import { SystemConfigurationsList } from './components/views/SystemConfigurationsList';
 import './custom.css'
 
 export default class App extends Component {
     static displayName = App.name;
 
-  render () {
-    return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/login' component={LoginForm} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/add-movie' component={AddFilm} />
-        <Route path='/add-book' component={BooksLists}/>
-            <Route path='/add-music' component={SongsLists}/>
-        <Route path='/add-role' component={AddRole} />
-        <Route path='/add-user' component={AddUserForm} />
-        <Route path='/inventory' component={ViewIventory}/>
-        <Route path='/cart' component={Cart}/>
-        <Route path='/payment' component={Payment} />
-        <Route path='/fetch' component={FetchData} />
-        <Route path='/users' component={UsersList} />
-        <Route path='/ProductBookSubjects' component={BookSubjectList} />
-        <Route path='/ProductMovieActors' component={MovieActorList} />
-        <Route path='/ProductMovieGenres' component={MovieGenreList} />
-        <Route path='/ProductSongGenres' component={SongGenreList} />
-        <Route path='/UserRoles' component={UserRoleList} />
-      </Layout>
-    );
-  }
+    render() {
+        return (
+            <Layout>
+                <Route exact path='/' component={Home} />
+                <Route path='/login' component={LoginForm} />
+                <Route path='/counter' component={Counter} />
+                <Route path='/add-movie' component={AddFilm} />
+                <Route path='/add-book' component={BooksLists} />
+                <Route path='/add-music' component={SongsLists} />
+                <Route path='/add-role' component={AddRole} />
+                <Route path='/add-user' component={AddUserForm} />
+                <Route path='/inventory' component={ViewIventory} />
+                <Route path='/cart' component={Cart} />
+                <Route path='/payment' component={Payment} />
+                <Route path='/Users' component={UsersList} />
+                <Route path='/ProductBookSubjects' component={BookSubjectList} />
+                <Route path='/ProductMovieActors' component={MovieActorList} />
+                <Route path='/ProductMovieGenres' component={MovieGenreList} />
+                <Route path='/ProductSongGenres' component={SongGenreList} />
+                <Route path='/UserRoles' component={UserRoleList} />
+                <Route path='/TableConsecutives' component={TableConsecutivesList} />
+                <Route path='/SystemConfigurations' component={SystemConfigurationsList} />
+            </Layout>
+        );
+    }
 }

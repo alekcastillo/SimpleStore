@@ -18,7 +18,7 @@ namespace SimpleStore.Entities
         public string BooksSavePath { get; set; }
         public string BookPreviewsSavePath { get; set; }
         public string SongsSavePath { get; set; }
-        public string SongsPreviewsSavePath { get; set; }
+        public string SongPreviewsSavePath { get; set; }
         public string MoviesSavePath { get; set; }
         public string MoviePreviewsSavePath { get; set; }
     }
