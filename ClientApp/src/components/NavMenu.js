@@ -67,7 +67,22 @@ export class NavMenu extends Component {
                 </NavItem>
                 <NavItem>
                     <NavLink tag={Link} className="text-light" to="/cart">Cart</NavLink>
-                </NavItem>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink tag={Link} className="text-light" to="/ProductBookSubjects">Tematica de Libro</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink tag={Link} className="text-light" to="/ProductMovieActors">Actores de Peliculas</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink tag={Link} className="text-light" to="/ProductMovieGenres">Genero de Peliculas</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink tag={Link} className="text-light" to="/ProductSongGenres">Genero de Canciones</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink tag={Link} className="text-light" to="/UserRoles">Roles de Usuario</NavLink>
+                            </NavItem>
               </ul>
             </Collapse>
           </Container>
