@@ -12,6 +12,11 @@ import { AddRole } from './components/forms/AddRole';
 import { AddUserForm } from './components/forms/AddUserForm';
 import { ViewIventory } from './components/forms/ViewInventory';
 import { UsersList } from './components/views/UsersList';
+import { BookSubjectList } from './components/views/BookSubjectList';
+import { MovieActorList } from './components/views/MovieActorList';
+import { MovieGenreList } from './components/views/MovieGenreList';
+import { SongGenreList } from './components/views/SongGenreList';
+import { UserRoleList } from './components/views/UserRoleList';
 import { Cart } from './components/forms/Cart';
 import { Payment } from './components/forms/Payment';
 import './custom.css'
@@ -35,6 +40,11 @@ export default class App extends Component {
         <Route path='/payment' component={Payment} />
         <Route path='/fetch' component={FetchData} />
         <Route path='/users' component={UsersList} />
+        <Route path='/ProductBookSubjects' component={BookSubjectList} />
+        <Route path='/ProductMovieActors' component={MovieActorList} />
+        <Route path='/ProductMovieGenres' component={MovieGenreList} />
+        <Route path='/ProductSongGenres' component={SongGenreList} />
+        <Route path='/UserRoles' component={UserRoleList} />
       </Layout>
     );
   }
