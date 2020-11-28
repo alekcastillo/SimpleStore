@@ -63,7 +63,7 @@ export class SongsLists extends Component {
                 price: rowData.product.price,
                 releaseYear: rowData.product.releaseYear,
                 language: rowData.product.language,
-                genreId: rowData.genere.id,
+                genreId: rowData.genre.id,
                 id: rowData.product.id,
                 filePath: rowData.product.filePath,
                 previewFilePath: rowData.product.previewFilePath,
@@ -193,7 +193,7 @@ export class SongsLists extends Component {
             <div style={{ maxWidth: '100%' }}>
                 <div id="alerts"></div>
                 <MaterialTable
-                    title="Libros"
+                    title="Musica"
                     tableRef={this.tableRef}
                     options={{
                         search: false,

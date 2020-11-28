@@ -27,7 +27,10 @@ namespace SimpleStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductSong>>> GetProductSongs()
         {
-            return await _context.ProductSongs.ToListAsync();
+            return await _context.ProductSongs
+                .Include(productSong => productSong.Product)
+                .Include(productSong => productSong.Genre)
+                .ToListAsync();
         }
 
         // GET: api/ProductSongs/5
@@ -160,6 +163,20 @@ public async Task<ActionResult<ProductBook>> PostProductBook(ProductBookDAO prod
             song.Artist = productSongDao.Artist;
             song.Label = productSongDao.Label;
             song.Product = product;
+
+            //MIENTRAS SE CONSTRUYE EL CONSECUTIVO
+            Random rnd = new Random();
+            int x = rnd.Next(0, 1000000000);
+            song.Code = x.ToString();
+
+            if (productSongDao.InterpretationType == 1)
+            {
+                song.InterpretationType = SongInterpretationType.Group;
+            }
+            else
+            {
+                song.InterpretationType = SongInterpretationType.Solo;
+            }
 
             _context.ProductSongs.Add(song);
             try
