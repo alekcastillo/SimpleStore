@@ -8,8 +8,8 @@ export class UserRoleList extends Component {
     static displayName = UserRoleList.name;
     static emptyRow = {
 
-        Title: '',
-        Description: '',
+        title: '',
+        description: '',
 
 
     }
