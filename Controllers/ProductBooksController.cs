@@ -53,6 +53,37 @@ namespace SimpleStore.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProductBook(string id, ProductBook productBook)
         {
+
+            /*
+            var product = new Product();
+            product.Title = productBookDao.Title;
+            product.Price = productBookDao.Price;
+            product.ReleaseYear = productBookDao.ReleaseYear;
+            product.Language = productBookDao.Language;
+            product.Type = ProductType.Book;
+            product.FilePath = productBookDao.FilePath;
+            product.PreviewFilePath = productBookDao.PreviewFilePath;
+            
+
+
+            var productBook = new ProductBook();
+            var bookSubject = new ProductBookSubject();
+            productBook.Subject = bookSubject;
+            productBook.Author = productBookDao.Author;
+            productBook.Publisher = productBookDao.Publisher;
+            productBook.Product = product;
+            productBook.Code = productBookDao.Code;
+            
+
+
+            if (id != productBookDao.Code)
+            {
+                return BadRequest();
+            }
+             
+             */
+
+
             if (id != productBook.Code)
             {
                 return BadRequest();
@@ -90,33 +121,48 @@ namespace SimpleStore.Controllers
             product.Type = ProductType.Book;
             product.FilePath = productBookDao.FilePath;
             product.PreviewFilePath = productBookDao.PreviewFilePath;
-
+            
             _context.Products.Add(product);
 
             var book = new ProductBook();
-            book.Code = ""; //Consecutivo;
-            book.Product = product;
-
-            var bookSubject = _context.ProductBookSubjects.Single(bookSubject => bookSubject.Id == productBookDao.SubjectId);
-            book.Subject = bookSubject;
+            var bookSubject = new ProductBookSubject();
+            
             book.Author = productBookDao.Author;
             book.Publisher = productBookDao.Publisher;
 
-            _context.ProductBooks.Add(book);
+            //var booksConsecutive = _context.TableConsecutives.Single(tableConsecutive => tableConsecutive.Table == "Book");
+            //book.Code = booksConsecutive.GetCurrentCode();
+            book.Product = product;
+
+            //DUMMY CODE MIENTRAS CONSTRUIMOS LA LOGICA DEL CONSECUTIVO
+            Random rnd = new Random();
+            int x = rnd.Next(1, 1000000000);
+            book.Code = x.ToString();
 
             try
             {
+                bookSubject = _context.ProductBookSubjects.Single(bookSubject => bookSubject.Id == productBookDao.SubjectId);
+            }
+            catch
+            {
+                bookSubject = null;
+            }
+            book.Subject = bookSubject;
+            try
+            {
+                _context.ProductBooks.Add(book);
                 await _context.SaveChangesAsync();
+                //_context.SaveChanges();
             }
             catch (DbUpdateException)
             {
                 if (ProductExists(product.Id))
                 {
-                    return Conflict();
+                    //return Conflict();
                 }
                 else if (ProductBookExists(book.Code))
                 {
-                    return Conflict();
+                    //return Conflict();
                 }
                 else
                 {

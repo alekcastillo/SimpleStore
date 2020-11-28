@@ -6,8 +6,8 @@ import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { LoginForm } from './components/forms/LoginForm';
 import { AddFilm } from './components/forms/AddFilm';
-import { AddBook } from './components/forms/AddBook';
-import { AddMusic } from './components/forms/AddMusic';
+import { BooksLists } from './components/views/BooksLists';
+import { SongsLists } from './components/views/SongsLists';
 import { AddRole } from './components/forms/AddRole';
 import { AddUserForm } from './components/forms/AddUserForm';
 import { ViewIventory } from './components/forms/ViewInventory';
@@ -26,8 +26,8 @@ export default class App extends Component {
         <Route path='/login' component={LoginForm} />
         <Route path='/counter' component={Counter} />
         <Route path='/add-movie' component={AddFilm} />
-        <Route path='/add-book' component={AddBook}/>
-        <Route path='/add-music' component={AddMusic}/>
+        <Route path='/add-book' component={BooksLists}/>
+            <Route path='/add-music' component={SongsLists}/>
         <Route path='/add-role' component={AddRole} />
         <Route path='/add-user' component={AddUserForm} />
         <Route path='/inventory' component={ViewIventory}/>

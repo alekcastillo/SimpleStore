@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SimpleStore.DAO;
 using SimpleStore.Entities;
+using SimpleStore.Entities.Attributes;
 using SimpleStore.Infrastructure;
 
 namespace SimpleStore.Controllers
@@ -25,7 +27,10 @@ namespace SimpleStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductSong>>> GetProductSongs()
         {
-            return await _context.ProductSongs.ToListAsync();
+            return await _context.ProductSongs
+                .Include(productSong => productSong.Product)
+                .Include(productSong => productSong.Genre)
+                .ToListAsync();
         }
 
         // GET: api/ProductSongs/5
@@ -74,20 +79,113 @@ namespace SimpleStore.Controllers
             return NoContent();
         }
 
+
+        /*
+
+         [HttpPost]
+public async Task<ActionResult<ProductBook>> PostProductBook(ProductBookDAO productBookDao)
+{
+    var product = new Product();
+    product.Title = productBookDao.Title;
+    product.Price = productBookDao.Price;
+    product.ReleaseYear = productBookDao.ReleaseYear;
+    product.Language = productBookDao.Language;
+    product.Type = ProductType.Book;
+    product.FilePath = productBookDao.FilePath;
+    product.PreviewFilePath = productBookDao.PreviewFilePath;
+
+    _context.Products.Add(product);
+
+    var book = new ProductBook();
+    book.Code = ""; //Consecutivo;
+    book.Product = product;
+
+    var bookSubject = _context.ProductBookSubjects.Single(bookSubject => bookSubject.Id == productBookDao.SubjectId);
+    book.Subject = bookSubject;
+    book.Author = productBookDao.Author;
+    book.Publisher = productBookDao.Publisher;
+
+    _context.ProductBooks.Add(book);
+
+    try
+    {
+        await _context.SaveChangesAsync();
+    }
+    catch (DbUpdateException)
+    {
+        if (ProductExists(product.Id))
+        {
+            return Conflict();
+        }
+        else if (ProductBookExists(book.Code))
+        {
+            return Conflict();
+        }
+        else
+        {
+            throw;
+        }
+    }
+
+    return CreatedAtAction("GetProductBook", new { id = book.Code }, book);
+}
+
+
+ */
+
         // POST: api/ProductSongs
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ProductSong>> PostProductSong(ProductSong productSong)
+        public async Task<ActionResult<ProductSong>> PostProductSong(ProductSongDAO productSongDao)
         {
-            _context.ProductSongs.Add(productSong);
+
+            var product = new Product();
+            product.Title = productSongDao.Title;
+            product.Price = productSongDao.Price;
+            product.ReleaseYear = productSongDao.ReleaseYear;
+            product.Language = productSongDao.Language;
+            product.Type = ProductType.Song;
+            product.FilePath = productSongDao.FilePath;
+            product.PreviewFilePath = productSongDao.PreviewFilePath;
+
+            _context.Products.Add(product);
+
+            var song = new ProductSong();
+
+            song.Album = productSongDao.Album;
+            song.Country = productSongDao.Country;
+
+            var songGenere = _context.ProductSongGenres.Single(songGenere => songGenere.Id == productSongDao.GenreId);
+
+            song.Genre = songGenere;
+
+            song.Artist = productSongDao.Artist;
+            song.Label = productSongDao.Label;
+            song.Product = product;
+
+            //MIENTRAS SE CONSTRUYE EL CONSECUTIVO
+            Random rnd = new Random();
+            int x = rnd.Next(0, 1000000000);
+            song.Code = x.ToString();
+
+            if (productSongDao.InterpretationType == 1)
+            {
+                song.InterpretationType = SongInterpretationType.Group;
+            }
+            else
+            {
+                song.InterpretationType = SongInterpretationType.Solo;
+            }
+
+            _context.ProductSongs.Add(song);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (ProductSongExists(productSong.Code))
+                if (ProductSongExists(song.Code))
                 {
                     return Conflict();
                 }
@@ -97,7 +195,7 @@ namespace SimpleStore.Controllers
                 }
             }
 
-            return CreatedAtAction("GetProductSong", new { id = productSong.Code }, productSong);
+            return CreatedAtAction("GetProductSong", new { id = song.Code }, song);
         }
 
         // DELETE: api/ProductSongs/5
