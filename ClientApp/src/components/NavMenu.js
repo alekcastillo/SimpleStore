@@ -82,7 +82,7 @@ export class NavMenu extends Component {
                                 <NavLink tag={Link} className="text-light" to="/ProductSongGenres">Genero de Canciones</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} className="text-light" to="/UserRoles">Roles de Usuario</NavLink>
+                                <NavLink tag={Link} className="text-light" to="/UserRoles">Roles de Usuario</NavLink>          
                             </NavItem>
                             
               </ul>
