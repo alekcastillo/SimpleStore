@@ -7,7 +7,7 @@ export class SongGenreList extends Component {
     static baseUrl = 'api/ProductSongGenres/';
     static displayName = SongGenreList.name;
     static emptyRow = {
-        Name: '',
+        name: '',
     }
 
     constructor(props) {
@@ -164,7 +164,7 @@ export class SongGenreList extends Component {
                         },
                         {
                             title: "Nombre",
-                            field: "Name",
+                            field: "name",
                         },
 
                     ]}
@@ -220,14 +220,14 @@ export class SongGenreList extends Component {
                     <ModalBody>
                         <div className="form-group">
                             <div className="form-group row">
-                                <label htmlFor="Name" className="col-sm-2 col-form-label">Nombre</label>
+                                <label htmlFor="name" className="col-sm-2 col-form-label">Nombre</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="Name"
-                                        name="Name"
-                                        value={this.state.currentRow.Name}
+                                        id="name"
+                                        name="name"
+                                        value={this.state.currentRow.name}
                                         onChange={this.handleChange}
                                     /></div>
                             </div>
