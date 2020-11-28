@@ -9,9 +9,9 @@ export class TableConsecutivesList extends Component {
     static emptyRow = {
         table: '',
         current: '',
-        usesPrefix: false,
+        usesPrefix: '',
         prefix: '',
-        usesRange: false,
+        usesRange: '',
         rangeMin: '',
         rangeMax: '',
     }
@@ -116,6 +116,7 @@ export class TableConsecutivesList extends Component {
     }
 
     async handleSave(e) {
+        console.log(this.state.currentRow);
         for (const [key, value] of Object.entries(TableConsecutivesList.emptyRow)) {
             if (this.state.currentRow[key] == value) {
                 this.showAlert('Todos los campos deben ser llenados!', 'danger');
@@ -280,12 +281,14 @@ export class TableConsecutivesList extends Component {
                             <div className="form-group row">
                                 <label htmlFor="usesPrefix" className="col-sm-2 col-form-label">Tiene prefijo</label>
                                 <div className="col-sm-10">
-                                    <Button color="primary"
-                                        onClick={() => this.state.currentRow.usesPrefix = true}
-                                        active={this.state.currentRow.usesPrefix}>Si</Button>
-                                    <Button color="secondary"
-                                        onClick={() => this.state.currentRow.usesPrefix = false}
-                                        active={!this.state.currentRow.usesPrefix}>No</Button>
+                                    <input
+                                        type="checkbox"
+                                        className="form-control"
+                                        id="usesPrefix"
+                                        name="usesPrefix"
+                                        value={this.state.currentRow.usesPrefix}
+                                        onChange={this.handleChange}
+                                    />
                                 </div>
                             </div>
                             <div className="form-group row">
@@ -304,12 +307,14 @@ export class TableConsecutivesList extends Component {
                             <div className="form-group row">
                                 <label htmlFor="usesRange" className="col-sm-2 col-form-label">Tiene rango</label>
                                 <div className="col-sm-10">
-                                    <Button color="primary"
-                                        onClick={() => this.state.currentRow.usesRange = true}
-                                        active={this.state.currentRow.usesRange}>Si</Button>
-                                    <Button color="secondary"
-                                        onClick={() => this.state.currentRow.usesRange = false}
-                                        active={!this.state.currentRow.usesRange}>No</Button>
+                                    <input
+                                        type="checkbox"
+                                        className="form-control"
+                                        id="usesRange"
+                                        name="usesRange"
+                                        value={this.state.currentRow.usesRange}
+                                        onChange={this.handleChange}
+                                    />
                                 </div>
                             </div>
                             <div className="form-group row">
