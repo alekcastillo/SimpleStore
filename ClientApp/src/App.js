@@ -12,30 +12,32 @@ import { AddRole } from './components/forms/AddRole';
 import { AddUserForm } from './components/forms/AddUserForm';
 import { ViewIventory } from './components/forms/ViewInventory';
 import { UsersList } from './components/views/UsersList';
+import { TableConsecutivesList } from './components/views/TableConsecutivesList';
 import { Cart } from './components/forms/Cart';
 import { Payment } from './components/forms/Payment';
 import './custom.css'
 
 export default class App extends Component {
-  static displayName = App.name;
+    static displayName = App.name;
 
-  render () {
-    return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/login' component={LoginForm} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/add-movie' component={AddFilm} />
-        <Route path='/add-book' component={BooksLists}/>
-            <Route path='/add-music' component={SongsLists}/>
-        <Route path='/add-role' component={AddRole} />
-        <Route path='/add-user' component={AddUserForm} />
-        <Route path='/inventory' component={ViewIventory}/>
-        <Route path='/cart' component={Cart}/>
-        <Route path='/payment' component={Payment} />
-        <Route path='/fetch' component={FetchData} />
-        <Route path='/users' component={UsersList} />
-      </Layout>
-    );
-  }
+    render() {
+        return (
+            <Layout>
+                <Route exact path='/' component={Home} />
+                <Route path='/login' component={LoginForm} />
+                <Route path='/counter' component={Counter} />
+                <Route path='/add-movie' component={AddFilm} />
+                <Route path='/add-book' component={BooksLists} />
+                <Route path='/add-music' component={SongsLists} />
+                <Route path='/add-role' component={AddRole} />
+                <Route path='/add-user' component={AddUserForm} />
+                <Route path='/inventory' component={ViewIventory} />
+                <Route path='/cart' component={Cart} />
+                <Route path='/payment' component={Payment} />
+                <Route path='/fetch' component={FetchData} />
+                <Route path='/users' component={UsersList} />
+                <Route path='/table-consecutives' component={TableConsecutivesList} />
+            </Layout>
+        );
+    }
 }

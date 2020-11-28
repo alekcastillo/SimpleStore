@@ -9,9 +9,9 @@ export class TableConsecutivesList extends Component {
     static emptyRow = {
         table: '',
         current: '',
-        usesPrefix: '',
+        usesPrefix: false,
         prefix: '',
-        usesRange: '',
+        usesRange: false,
         rangeMin: '',
         rangeMax: '',
     }
@@ -141,7 +141,7 @@ export class TableConsecutivesList extends Component {
             this.tableRef.current.onQueryChange();
         }).catch(error => {
             this.showAlert('Ha ocurrido un error!', 'danger');
-            console.log(error)
+            console.log(error);
         });
     }
 
@@ -280,14 +280,12 @@ export class TableConsecutivesList extends Component {
                             <div className="form-group row">
                                 <label htmlFor="usesPrefix" className="col-sm-2 col-form-label">Tiene prefijo</label>
                                 <div className="col-sm-10">
-                                    <input
-                                        type="checkbox"
-                                        className="form-control"
-                                        id="usesPrefix"
-                                        name="usesPrefix"
-                                        value={this.state.currentRow.usesPrefix}
-                                        onChange={this.handleChange}
-                                    />
+                                    <Button color="primary"
+                                        onClick={() => this.state.currentRow.usesPrefix = true}
+                                        active={this.state.currentRow.usesPrefix}>Si</Button>
+                                    <Button color="secondary"
+                                        onClick={() => this.state.currentRow.usesPrefix = false}
+                                        active={!this.state.currentRow.usesPrefix}>No</Button>
                                 </div>
                             </div>
                             <div className="form-group row">
@@ -306,14 +304,12 @@ export class TableConsecutivesList extends Component {
                             <div className="form-group row">
                                 <label htmlFor="usesRange" className="col-sm-2 col-form-label">Tiene rango</label>
                                 <div className="col-sm-10">
-                                    <input
-                                        type="checkbox"
-                                        className="form-control"
-                                        id="usesRange"
-                                        name="usesRange"
-                                        value={this.state.currentRow.usesRange}
-                                        onChange={this.handleChange}
-                                    />
+                                    <Button color="primary"
+                                        onClick={() => this.state.currentRow.usesRange = true}
+                                        active={this.state.currentRow.usesRange}>Si</Button>
+                                    <Button color="secondary"
+                                        onClick={() => this.state.currentRow.usesRange = false}
+                                        active={!this.state.currentRow.usesRange}>No</Button>
                                 </div>
                             </div>
                             <div className="form-group row">
