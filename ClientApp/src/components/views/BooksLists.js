@@ -158,7 +158,7 @@ export class BooksLists extends Component {
 
     async deleteRow() {
         // We call the backend to delete the row
-        await fetch(BooksLists.baseUrl + this.state.currentRow.id, {
+        await fetch(BooksLists.baseUrl + this.state.currentRow.code, {
             method: 'DELETE',
         }).then(response => {
             this.toggleDeleteModal();

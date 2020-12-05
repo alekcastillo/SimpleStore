@@ -9,6 +9,7 @@ import { AddFilm } from './components/forms/AddFilm';
 import { BooksLists } from './components/views/BooksLists';
 import { SongsLists } from './components/views/SongsLists';
 import { AddRole } from './components/forms/AddRole';
+import { MovieLists } from './components/views/MovieLists';
 import { AddUserForm } from './components/forms/AddUserForm';
 import { ViewIventory } from './components/forms/ViewInventory';
 import { UsersList } from './components/views/UsersList';
@@ -34,7 +35,8 @@ export default class App extends Component {
         <Route path='/cart' component={Cart}/>
         <Route path='/payment' component={Payment} />
         <Route path='/fetch' component={FetchData} />
-        <Route path='/users' component={UsersList} />
+            <Route path='/users' component={UsersList} />
+            <Route path='/movies' component={MovieLists} />
       </Layout>
     );
   }
