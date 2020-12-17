@@ -33,10 +33,10 @@ export class NavMenu extends Component {
     render() {
         return (
             <header>
-                <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 navbar-dark bg-dark" light>
-                    <Container>
-                        <a href="#"> <img src="http://www.noticiasdot.com/wp2/wp-content/uploads/2011/10/db.png" width="50" height="50" /></a>
+                <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 navbar-dark bg-dark" light>                    
+                        <a href="#"><img src="http://www.noticiasdot.com/wp2/wp-content/uploads/2011/10/db.png" width="50" height="50" /></a>
                         <NavbarBrand tag={Link} to="/">Kame House</NavbarBrand>
+                    <Container>
                         <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                         <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
                             <ul className="navbar-nav flex-grow">
