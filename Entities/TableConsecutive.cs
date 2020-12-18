@@ -27,10 +27,10 @@ namespace SimpleStore.Entities
 
             if (UsesRange)
             {
-                if (Current < RangeMin)
+                if (RangeMin != null && Current < RangeMin)
                     throw new ValidationException("The current is bellow the range's min");
 
-                if (Current >= RangeMax)
+                if (RangeMax != null && Current >= RangeMax)
                     throw new ValidationException("The current is above or equal to the range's max");
             }
 

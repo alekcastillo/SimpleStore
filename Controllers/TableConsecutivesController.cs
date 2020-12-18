@@ -74,6 +74,12 @@ namespace SimpleStore.Controllers
         [HttpPost]
         public async Task<ActionResult<TableConsecutive>> PostTableConsecutive(TableConsecutive tableConsecutive)
         {
+            if (tableConsecutive.Prefix != "")
+                tableConsecutive.UsesPrefix = true;
+
+            if (tableConsecutive.RangeMin != null || tableConsecutive.RangeMax != null)
+                tableConsecutive.UsesRange = true;
+
             _context.TableConsecutives.Add(tableConsecutive);
 
             ChangeLog.AddCreatedLog(_context, "TableConsecutives", tableConsecutive);

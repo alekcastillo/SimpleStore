@@ -9,9 +9,7 @@ export class TableConsecutivesList extends Component {
     static emptyRow = {
         table: '',
         current: '',
-        usesPrefix: '',
         prefix: '',
-        usesRange: '',
         rangeMin: '',
         rangeMax: '',
     }
@@ -117,13 +115,6 @@ export class TableConsecutivesList extends Component {
 
     async handleSave(e) {
         console.log(this.state.currentRow);
-        for (const [key, value] of Object.entries(TableConsecutivesList.emptyRow)) {
-            if (this.state.currentRow[key] == value) {
-                this.showAlert('Todos los campos deben ser llenados!', 'danger');
-                this.toggleEditModal();
-                return;
-            }
-        }
         if (this.state.currentRow.id) {
             await this.editRow();
         } else {
@@ -179,16 +170,8 @@ export class TableConsecutivesList extends Component {
                             numeric: true,
                         },
                         {
-                            title: "Tiene prefijo",
-                            field: "usesPrefix",
-                        },
-                        {
                             title: "Prefijo",
                             field: "prefix",
-                        },
-                        {
-                            title: "Tiene rango",
-                            field: "usesRange",
                         },
                         {
                             title: "Minimo del rango",
@@ -279,20 +262,7 @@ export class TableConsecutivesList extends Component {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="usesPrefix" className="col-sm-2 col-form-label">Tiene prefijo</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="checkbox"
-                                        className="form-control"
-                                        id="usesPrefix"
-                                        name="usesPrefix"
-                                        value={this.state.currentRow.usesPrefix}
-                                        onChange={this.handleChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="prefix" className="col-sm-2 col-form-label">Prefijo</label>
+                                <label htmlFor="prefix" className="col-sm-2 col-form-label">Prefijo (opcional)</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
@@ -305,20 +275,7 @@ export class TableConsecutivesList extends Component {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="usesRange" className="col-sm-2 col-form-label">Tiene rango</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="checkbox"
-                                        className="form-control"
-                                        id="usesRange"
-                                        name="usesRange"
-                                        value={this.state.currentRow.usesRange}
-                                        onChange={this.handleChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="rangeMin" className="col-sm-2 col-form-label">Minimo del rango</label>
+                                <label htmlFor="rangeMin" className="col-sm-2 col-form-label">Minimo del rango (opcional)</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="number"
@@ -331,7 +288,7 @@ export class TableConsecutivesList extends Component {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="rangeMax" className="col-sm-2 col-form-label">Máximo del rango</label>
+                                <label htmlFor="rangeMax" className="col-sm-2 col-form-label">Máximo del rango (opcional)</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="number"
