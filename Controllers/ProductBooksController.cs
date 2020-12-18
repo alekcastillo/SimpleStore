@@ -51,10 +51,8 @@ namespace SimpleStore.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProductBook(string id, ProductBook productBook)
+        public async Task<IActionResult> PutProductBook(string id, ProductBookDAO productBookDao)
         {
-
-            /*
             var product = new Product();
             product.Title = productBookDao.Title;
             product.Price = productBookDao.Price;
@@ -63,8 +61,6 @@ namespace SimpleStore.Controllers
             product.Type = ProductType.Book;
             product.FilePath = productBookDao.FilePath;
             product.PreviewFilePath = productBookDao.PreviewFilePath;
-            
-
 
             var productBook = new ProductBook();
             var bookSubject = new ProductBookSubject();
@@ -73,15 +69,13 @@ namespace SimpleStore.Controllers
             productBook.Publisher = productBookDao.Publisher;
             productBook.Product = product;
             productBook.Code = productBookDao.Code;
-            
 
+            ChangeLog.AddCreatedLog(_context, "Books", productBook);
 
             if (id != productBookDao.Code)
             {
                 return BadRequest();
             }
-             
-             */
 
 
             if (id != productBook.Code)
@@ -130,14 +124,9 @@ namespace SimpleStore.Controllers
             book.Author = productBookDao.Author;
             book.Publisher = productBookDao.Publisher;
 
-            var booksConsecutive = _context.TableConsecutives.Single(tableConsecutive => tableConsecutive.Table == "Libro");
+            var booksConsecutive = _context.TableConsecutives.Single(tableConsecutive => tableConsecutive.Table == "Libros");
             book.Code = booksConsecutive.GetCurrentCode();
             book.Product = product;
-
-            //DUMMY CODE MIENTRAS CONSTRUIMOS LA LOGICA DEL CONSECUTIVO
-            //Random rnd = new Random();
-            //int x = rnd.Next(1, 1000000000);
-            //book.Code = x.ToString();
 
             try
             {
@@ -150,21 +139,23 @@ namespace SimpleStore.Controllers
 
             book.Subject = bookSubject;
 
+            _context.ProductBooks.Add(book);
+
+            ChangeLog.AddCreatedLog(_context, "Books", book);
+
             try
             {
-                _context.ProductBooks.Add(book);
                 await _context.SaveChangesAsync();
-                //_context.SaveChanges();
             }
             catch (DbUpdateException)
             {
                 if (ProductExists(product.Id))
                 {
-                    //return Conflict();
+                    return Conflict();
                 }
                 else if (ProductBookExists(book.Code))
                 {
-                    //return Conflict();
+                    return Conflict();
                 }
                 else
                 {
@@ -180,6 +171,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult<ProductBook>> DeleteProductBook(string id)
         {
             var productBook = await _context.ProductBooks.FindAsync(id);
+
+            ChangeLog.AddDeletedLog(_context, "Books", productBook);
+
             if (productBook == null)
             {
                 return NotFound();

@@ -57,6 +57,8 @@ namespace SimpleStore.Controllers
 
             _context.Entry(productMovie).State = EntityState.Modified;
 
+            ChangeLog.AddUpdatedLog(_context, "Movies", productMovie);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -118,6 +120,9 @@ namespace SimpleStore.Controllers
             movie.Actors = movieActor;
 
             _context.ProductMovies.Add(movie);
+
+            ChangeLog.AddCreatedLog(_context, "Movies", movie);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -143,6 +148,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult<ProductMovie>> DeleteProductMovie(string id)
         {
             var productMovie = await _context.ProductMovies.FindAsync(id);
+
+            ChangeLog.AddDeletedLog(_context, "Movies", productMovie);
+
             if (productMovie == null)
             {
                 return NotFound();

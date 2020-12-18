@@ -52,6 +52,8 @@ namespace SimpleStore.Controllers
 
             _context.Entry(user).State = EntityState.Modified;
 
+            ChangeLog.AddUpdatedLog(_context, "Users", user);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -75,6 +77,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult> PostUser([FromBody] User user)
         {
             _context.Users.Add(user);
+
+            ChangeLog.AddCreatedLog(_context, "Users", user);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
@@ -84,6 +89,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult<User>> DeleteUser(Guid id)
         {
             var user = await _context.Users.FindAsync(id);
+
+            ChangeLog.AddDeletedLog(_context, "Users", user);
+
             if (user == null)
             {
                 return NotFound();

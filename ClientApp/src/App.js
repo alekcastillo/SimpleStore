@@ -21,6 +21,7 @@ import { Cart } from './components/forms/Cart';
 import { Payment } from './components/forms/Payment';
 import { TableConsecutivesList } from './components/views/TableConsecutivesList';
 import { SystemConfigurationsList } from './components/views/SystemConfigurationsList';
+import { ChangeLogList } from './components/views/ChangeLogList';
 import './custom.css'
 
 export default class App extends Component {
@@ -48,6 +49,7 @@ export default class App extends Component {
                 <Route path='/UserRoles' component={UserRoleList} />
                 <Route path='/TableConsecutives' component={TableConsecutivesList} />
                 <Route path='/SystemConfigurations' component={SystemConfigurationsList} />
+                <Route path='/ChangeLogs' component={ChangeLogList} />
             </Layout>
         );
     }

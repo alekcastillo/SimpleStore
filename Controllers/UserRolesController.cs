@@ -55,6 +55,8 @@ namespace SimpleStore.Controllers
 
             _context.Entry(userRole).State = EntityState.Modified;
 
+            ChangeLog.AddUpdatedLog(_context, "UserRoles", userRole);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -81,6 +83,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult<UserRole>> PostUserRole(UserRole userRole)
         {
             _context.UserRoles.Add(userRole);
+
+            ChangeLog.AddCreatedLog(_context, "UserRoles", userRole);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUserRole", new { id = userRole.Id }, userRole);
@@ -91,6 +96,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult<UserRole>> DeleteUserRole(Guid id)
         {
             var userRole = await _context.UserRoles.FindAsync(id);
+
+            ChangeLog.AddDeletedLog(_context, "UserRoles", userRole);
+
             if (userRole == null)
             {
                 return NotFound();

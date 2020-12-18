@@ -55,6 +55,8 @@ namespace SimpleStore.Controllers
 
             _context.Entry(productMovieActor).State = EntityState.Modified;
 
+            ChangeLog.AddUpdatedLog(_context, "MovieActors", productMovieActor);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -81,6 +83,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult<ProductMovieActor>> PostProductMovieActor(ProductMovieActor productMovieActor)
         {
             _context.ProductMovieActors.Add(productMovieActor);
+
+            ChangeLog.AddCreatedLog(_context, "MovieActors", productMovieActor);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProductMovieActor", new { id = productMovieActor.Id }, productMovieActor);
@@ -91,6 +96,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult<ProductMovieActor>> DeleteProductMovieActor(Guid id)
         {
             var productMovieActor = await _context.ProductMovieActors.FindAsync(id);
+
+            ChangeLog.AddDeletedLog(_context, "MovieActors", productMovieActor);
+
             if (productMovieActor == null)
             {
                 return NotFound();
