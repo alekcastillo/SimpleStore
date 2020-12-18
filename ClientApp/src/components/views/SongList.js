@@ -1,17 +1,26 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import MaterialTable from "material-table";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert, Row } from 'reactstrap'
 
-export class UsersList extends Component {
-    static baseUrl = 'api/users/';
-    static displayName = UsersList.name;
+export class SongList extends Component {
+    static baseUrl = 'api/ProductSongs/';
+    static displayName = SongList.name;
     static emptyRow = {
-        firstName: '',
-        lastName1: '',
-        lastName2: '',
-        password: '',
+        title: '',
+        price: '',
+        releaseYear: '',
+        language: '',
+        genreId: '',
+        filePath: '',
+        previewFilePath: '',
+        artist: '',
+        album: '',
+        country: '',
+        label: '',
     }
+
+
 
     constructor(props) {
         super(props);
@@ -41,7 +50,30 @@ export class UsersList extends Component {
     }
 
     copyEmptyRow() {
-        return Object.assign({}, UsersList.emptyRow);
+        return JSON.parse(JSON.stringify(SongList.emptyRow));
+    }
+
+    flattenData(data) {
+        let flatData = [];
+        for (let rowData of data) {
+            console.log(rowData);
+            flatData.push({
+                code: rowData.code,
+                title: rowData.product.title,
+                price: rowData.product.price,
+                releaseYear: rowData.product.releaseYear,
+                language: rowData.product.language,
+                genreId: rowData.genre.id,
+                id: rowData.product.id,
+                filePath: rowData.product.filePath,
+                previewFilePath: rowData.product.previewFilePath,
+                artist: rowData.artist,
+                album: rowData.album,
+                country: rowData.country,
+                label: rowData.label,
+            })
+        }
+        return flatData;
     }
 
     toggleEditModal(rowData) {
@@ -76,7 +108,7 @@ export class UsersList extends Component {
 
     async addRow() {
         // We call the backend to add the new row
-        await fetch(UsersList.baseUrl, {
+        await fetch(SongList.baseUrl, {
             method: 'POST',
             body: JSON.stringify(this.state.currentRow),
             headers: {
@@ -95,13 +127,20 @@ export class UsersList extends Component {
 
     async editRow() {
         // We call the backend to edit the row
-        await fetch(UsersList.baseUrl + this.state.currentRow.id, {
+        await fetch(SongList.baseUrl + this.state.currentRow.code, {
             method: 'PUT',
             body: JSON.stringify(this.state.currentRow),
             headers: {
                 'content-type': 'application/json'
             }
-        }).then(response => {
+
+        }).then(fetch('api/Products/' + this.state.currentRow.id, {
+            method: 'PUT',
+            body: JSON.stringify(this.state.currentRow),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })).then(response => {
             this.toggleEditModal();
             this.showAlert('Registro actualizado con exito', 'success');
             // We reload the table
@@ -113,14 +152,14 @@ export class UsersList extends Component {
     }
 
     async handleSave(e) {
-        for (const [key, value] of Object.entries(UsersList.emptyRow)) {
+        for (const [key, value] of Object.entries(SongList.emptyRow)) {
             if (this.state.currentRow[key] == value) {
                 this.showAlert('Todos los campos deben ser llenados!', 'danger');
                 this.toggleEditModal();
                 return;
             }
         }
-        if (this.state.currentRow.id) {
+        if (this.state.currentRow.code) {
             await this.editRow();
         } else {
             await this.addRow();
@@ -129,7 +168,7 @@ export class UsersList extends Component {
 
     async deleteRow() {
         // We call the backend to delete the row
-        await fetch(UsersList.baseUrl + this.state.currentRow.id, {
+        await fetch(SongList.baseUrl + this.state.currentRow.id, {
             method: 'DELETE',
         }).then(response => {
             this.toggleDeleteModal();
@@ -148,12 +187,13 @@ export class UsersList extends Component {
         }
     }
 
+
     render() {
         return (
             <div style={{ maxWidth: '100%' }}>
                 <div id="alerts"></div>
                 <MaterialTable
-                    title="Usuarios"
+                    title="Musica"
                     tableRef={this.tableRef}
                     options={{
                         search: false,
@@ -162,43 +202,72 @@ export class UsersList extends Component {
                     }}
                     columns={[
                         {
-                            title: "ID",
+                            title: "Code",
+                            field: "code",
+                        },
+                        {
+                            title: "Titulo",
+                            field: "title",
+                        },
+                        {
+                            title: "Producto",
                             field: "id",
                         },
                         {
-                            title: "Correo electronico",
-                            field: "email",
+                            title: "Precio",
+                            field: "price",
                         },
                         {
-                            title: "Nombre",
-                            field: "firstName",
+                            title: "Año de publicacion",
+                            field: "releaseYear",
                         },
                         {
-                            title: "Primer apellido",
-                            field: "lastName1",
+                            title: "Idioma",
+                            field: "language",
                         },
                         {
-                            title: "Segundo apellido",
-                            field: "lastName2",
+                            title: "Genero",
+                            field: "genere",
                         },
                         {
-                            title: "Contraseña",
-                            field: "password",
+                            title: "File Path",
+                            field: "filePath",
+                        },
+                        {
+                            title: "File Preview",
+                            field: "previewFilePath",
+                        },
+                        {
+                            title: "Artista",
+                            field: "artist",
+                        },
+                        {
+                            title: "Album",
+                            field: "album",
+                        },
+                        {
+                            title: "Pais",
+                            field: "country",
+                        },
+                        {
+                            title: "Label",
+                            field: "label",
                         },
                     ]}
                     data={query =>
                         // We make the request to gather the table data
                         new Promise((resolve, reject) => {
                             console.log(query);
-                            fetch(UsersList.baseUrl)
+                            fetch(SongList.baseUrl)
                                 .then(response => response.json())
                                 .then(result => {
                                     // Here we do the pagination using the query passed
                                     // by the table. We have no backend pagination
                                     let initialIndex = query.pageSize * query.page;
                                     let finalIndex = query.pageSize * (query.page + 1);
+                                    let flatResult = this.flattenData(result);
                                     resolve({
-                                        data: result.slice(initialIndex, finalIndex),
+                                        data: flatResult.slice(initialIndex, finalIndex),
                                         page: query.page,
                                         totalCount: result.length,
                                     })
@@ -234,67 +303,143 @@ export class UsersList extends Component {
                 />
                 {/* Create / Edit Modal */}
                 <Modal isOpen={this.state.editModal}>
-                    <ModalHeader>Usuario</ModalHeader>
+                    <ModalHeader>Libro</ModalHeader>
                     <ModalBody>
                         <div className="form-group">
                             <div className="form-group row">
-                                <label htmlFor="email" className="col-sm-2 col-form-label">Correo Electronico</label>
+                                <label htmlFor="title" className="col-sm-2 col-form-label">Titulo</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="email"
-                                        name="email"
-                                        value={this.state.currentRow.email}
+                                        id="title"
+                                        name="title"
+                                        value={this.state.currentRow.title}
                                         onChange={this.handleChange}
                                     />
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="firstName" className="col-sm-2 col-form-label">Nombre</label>
+                                <label htmlFor="genreId" className="col-sm-2 col-form-label">Genero</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="firstName"
-                                        name="firstName"
-                                        value={this.state.currentRow.firstName}
+                                        id="genreId"
+                                        name="genreId"
+                                        value={this.state.currentRow.genere}
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label htmlFor="artist" className="col-sm-2 col-form-label">Artista</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="artist"
+                                        name="artist"
+                                        value={this.state.currentRow.artist}
+                                        onChange={this.handleChange}
+                                    /></div>
+                            </div>
+                            
+                            
+
+                            <div className="form-group row">
+                                <label htmlFor="country" className="col-sm-2 col-form-label">Pais</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="country"
+                                        name="country"
+                                        value={this.state.currentRow.country}
                                         onChange={this.handleChange}
                                     /></div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="lastName1" className="col-sm-2 col-form-label">Primer apellido</label>
+                                <label htmlFor="price" className="col-sm-2 col-form-label">Precio</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="lastName1"
-                                        name="lastName1"
-                                        value={this.state.currentRow.lastName1}
+                                        id="price"
+                                        name="price"
+                                        value={this.state.currentRow.price}
                                         onChange={this.handleChange}
                                     /></div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="lastName2" className="col-sm-2 col-form-label">Segundo apellido</label>
+                                <label htmlFor="album" className="col-sm-2 col-form-label">Album</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="lastName2"
-                                        name="lastName2"
-                                        value={this.state.currentRow.lastName2}
+                                        id="album"
+                                        name="album"
+                                        value={this.state.currentRow.album}
+                                        onChange={this.handleChange}
+                                    /></div>
+                            </div>  
+                            <div className="form-group row">
+                                <label htmlFor="releaseYear" className="col-sm-2 col-form-label">Año de publicación</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="releaseYear"
+                                        name="releaseYear"
+                                        value={this.state.currentRow.releaseYear}
+                                        onChange={this.handleChange}
+                                    /></div>
+                            </div>  
+                            <div className="form-group row">
+                                <label htmlFor="language" className="col-sm-2 col-form-label">Idioma</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="language"
+                                        name="language"
+                                        value={this.state.currentRow.language}
                                         onChange={this.handleChange}
                                     /></div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="password" className="col-sm-2 col-form-label">Contraseña</label>
+                                <label htmlFor="label" className="col-sm-2 col-form-label">Label</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="password"
-                                        name="password"
-                                        value={this.state.currentRow.password}
+                                        id="label"
+                                        name="label"
+                                        value={this.state.currentRow.label}
+                                        onChange={this.handleChange}
+                                    /></div>
+                            </div>
+                            <div className="form-group row">
+                                <label htmlFor="filePath" className="col-sm-2 col-form-label">File Path</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="filePath"
+                                        name="filePath"
+                                        value={this.state.currentRow.filePath}
+                                        onChange={this.handleChange}
+                                    /></div>
+                            </div>
+                            <div className="form-group row">
+                                <label htmlFor="previewFilePath" className="col-sm-2 col-form-label">Preview path</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="previewFilePath"
+                                        name="previewFilePath"
+                                        value={this.state.currentRow.previewFilePath}
                                         onChange={this.handleChange}
                                     /></div>
                             </div>

@@ -3,16 +3,17 @@ import ReactDOM from 'react-dom';
 import MaterialTable from "material-table";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap'
 
-export class SystemConfigurationsList extends Component {
-    static baseUrl = 'api/systemconfigurations/';
-    static displayName = SystemConfigurationsList.name;
+export class MovieList extends Component {
+    static baseUrl = 'api/ProductMovies/';
+    static displayName = MovieList.name;
     static emptyRow = {
-        booksSavePath: '',
-        bookPreviewsSavePath: '',
-        songsSavePath: '',
-        songPreviewsSavePath: '',
-        moviesSavePath: '',
-        moviePreviewsSavePath: '',
+        title: '',
+        price: '',
+        releaseYear: '',
+        language: '',
+        subjectId: '',
+        author: '',
+        publisher: '',
     }
 
     constructor(props) {
@@ -43,7 +44,26 @@ export class SystemConfigurationsList extends Component {
     }
 
     copyEmptyRow() {
-        return Object.assign({}, SystemConfigurationsList.emptyRow);
+        return JSON.parse(JSON.stringify(MovieList.emptyRow));
+    }
+
+    flattenData(data) {
+        let flatData = [];
+        for (let rowData of data) {
+            console.log(rowData);
+            flatData.push({
+                code: rowData.code,
+                title: rowData.product.title,
+                price: rowData.product.price,
+                releaseYear: rowData.product.releaseYear,
+                language: rowData.product.language,
+                subjectId: rowData.subject.id,
+                id: rowData.product.id,
+                author: rowData.author,
+                publisher: rowData.publisher,
+            })
+        }
+        return flatData;
     }
 
     toggleEditModal(rowData) {
@@ -78,7 +98,7 @@ export class SystemConfigurationsList extends Component {
 
     async addRow() {
         // We call the backend to add the new row
-        await fetch(SystemConfigurationsList.baseUrl, {
+        await fetch(MovieList.baseUrl, {
             method: 'POST',
             body: JSON.stringify(this.state.currentRow),
             headers: {
@@ -97,13 +117,20 @@ export class SystemConfigurationsList extends Component {
 
     async editRow() {
         // We call the backend to edit the row
-        await fetch(SystemConfigurationsList.baseUrl + this.state.currentRow.id, {
+        await fetch(MovieList.baseUrl + this.state.currentRow.code, {
             method: 'PUT',
             body: JSON.stringify(this.state.currentRow),
             headers: {
                 'content-type': 'application/json'
             }
-        }).then(response => {
+
+        }).then(fetch('api/Products/' + this.state.currentRow.id, {
+            method: 'PUT',
+            body: JSON.stringify(this.state.currentRow),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })).then(response => {
             this.toggleEditModal();
             this.showAlert('Registro actualizado con exito', 'success');
             // We reload the table
@@ -115,14 +142,14 @@ export class SystemConfigurationsList extends Component {
     }
 
     async handleSave(e) {
-        for (const [key, value] of Object.entries(SystemConfigurationsList.emptyRow)) {
+        for (const [key, value] of Object.entries(MovieList.emptyRow)) {
             if (this.state.currentRow[key] == value) {
                 this.showAlert('Todos los campos deben ser llenados!', 'danger');
                 this.toggleEditModal();
                 return;
             }
         }
-        if (this.state.currentRow.id) {
+        if (this.state.currentRow.code) {
             await this.editRow();
         } else {
             await this.addRow();
@@ -131,7 +158,7 @@ export class SystemConfigurationsList extends Component {
 
     async deleteRow() {
         // We call the backend to delete the row
-        await fetch(SystemConfigurationsList.baseUrl + this.state.currentRow.id, {
+        await fetch(MovieList.baseUrl + this.state.currentRow.id, {
             method: 'DELETE',
         }).then(response => {
             this.toggleDeleteModal();
@@ -150,12 +177,13 @@ export class SystemConfigurationsList extends Component {
         }
     }
 
+
     render() {
         return (
             <div style={{ maxWidth: '100%' }}>
                 <div id="alerts"></div>
                 <MaterialTable
-                    title="Configuraciones"
+                    title="Peliculas"
                     tableRef={this.tableRef}
                     options={{
                         search: false,
@@ -164,47 +192,56 @@ export class SystemConfigurationsList extends Component {
                     }}
                     columns={[
                         {
-                            title: "ID",
+                            title: "Code",
+                            field: "code",
+                        },
+                        {
+                            title: "Titulo",
+                            field: "title",
+                        },
+                        {
+                            title: "Autor",
+                            field: "author",
+                        },
+                        {
+                            title: "Categoria",
+                            field: "subjectId",
+                        },
+                        {
+                            title: "Producto",
                             field: "id",
                         },
                         {
-                            title: "Ruta de libros",
-                            field: "booksSavePath",
+                            title: "Publisher",
+                            field: "publisher",
                         },
                         {
-                            title: "Ruta de previews de libros",
-                            field: "bookPreviewsSavePath",
+                            title: "Precio",
+                            field: "price",
                         },
                         {
-                            title: "Ruta de canciones",
-                            field: "songsSavePath",
+                            title: "Año de publicacion",
+                            field: "releaseYear",
                         },
                         {
-                            title: "Ruta de previews de canciones",
-                            field: "songPreviewsSavePath",
-                        },
-                        {
-                            title: "Ruta de peliculas",
-                            field: "moviesSavePath",
-                        },
-                        {
-                            title: "Ruta de previews de peliculas",
-                            field: "moviePreviewsSavePath",
+                            title: "Idioma",
+                            field: "language",
                         },
                     ]}
                     data={query =>
                         // We make the request to gather the table data
                         new Promise((resolve, reject) => {
                             console.log(query);
-                            fetch(SystemConfigurationsList.baseUrl)
+                            fetch(MovieList.baseUrl)
                                 .then(response => response.json())
                                 .then(result => {
                                     // Here we do the pagination using the query passed
                                     // by the table. We have no backend pagination
                                     let initialIndex = query.pageSize * query.page;
                                     let finalIndex = query.pageSize * (query.page + 1);
+                                    let flatResult = this.flattenData(result);
                                     resolve({
-                                        data: result.slice(initialIndex, finalIndex),
+                                        data: flatResult.slice(initialIndex, finalIndex),
                                         page: query.page,
                                         totalCount: result.length,
                                     })
@@ -240,86 +277,97 @@ export class SystemConfigurationsList extends Component {
                 />
                 {/* Create / Edit Modal */}
                 <Modal isOpen={this.state.editModal}>
-                    <ModalHeader>Usuario</ModalHeader>
+                    <ModalHeader>Libro</ModalHeader>
                     <ModalBody>
                         <div className="form-group">
                             <div className="form-group row">
-                                <label htmlFor="booksSavePath" className="col-sm-2 col-form-label">Ruta de libros</label>
+                                <label htmlFor="title" className="col-sm-2 col-form-label">Titulo</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="booksSavePath"
-                                        name="booksSavePath"
-                                        value={this.state.currentRow.booksSavePath}
+                                        id="title"
+                                        name="title"
+                                        value={this.state.currentRow.title}
                                         onChange={this.handleChange}
                                     />
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="bookPreviewsSavePath" className="col-sm-2 col-form-label">Ruta de previews de libros</label>
+                                <label htmlFor="author" className="col-sm-2 col-form-label">Autor</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="bookPreviewsSavePath"
-                                        name="bookPreviewsSavePath"
-                                        value={this.state.currentRow.bookPreviewsSavePath}
+                                        id="author"
+                                        name="author"
+                                        value={this.state.currentRow.author}
                                         onChange={this.handleChange}
                                     />
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="songsSavePath" className="col-sm-2 col-form-label">Ruta de canciones</label>
+                                <label htmlFor="subjectId" className="col-sm-2 col-form-label">Categoria</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="songsSavePath"
-                                        name="songsSavePath"
-                                        value={this.state.currentRow.songsSavePath}
+                                        id="subjectId"
+                                        name="subjectId"
+                                        value={this.state.currentRow.name}
                                         onChange={this.handleChange}
-                                    />
-                                </div>
+                                    /></div>
+                            </div>
+                            
+                            
+
+                            <div className="form-group row">
+                                <label htmlFor="publisher" className="col-sm-2 col-form-label">Editorial</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="publisher"
+                                        name="publisher"
+                                        value={this.state.currentRow.publisher}
+                                        onChange={this.handleChange}
+                                    /></div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="songPreviewsSavePath" className="col-sm-2 col-form-label">Ruta de previews de canciones</label>
+                                <label htmlFor="price" className="col-sm-2 col-form-label">Precio</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="songPreviewsSavePath"
-                                        name="songPreviewsSavePath"
-                                        value={this.state.currentRow.songPreviewsSavePath}
+                                        id="price"
+                                        name="price"
+                                        value={this.state.currentRow.price}
                                         onChange={this.handleChange}
-                                    />
-                                </div>
+                                    /></div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="moviesSavePath" className="col-sm-2 col-form-label">Ruta de peliculas</label>
+                                <label htmlFor="releaseYear" className="col-sm-2 col-form-label">Año de publicación</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="moviesSavePath"
-                                        name="moviesSavePath"
-                                        value={this.state.currentRow.moviesSavePath}
+                                        id="releaseYear"
+                                        name="releaseYear"
+                                        value={this.state.currentRow.releaseYear}
                                         onChange={this.handleChange}
-                                    />
-                                </div>
-                            </div>
+                                    /></div>
+                            </div>  
                             <div className="form-group row">
-                                <label htmlFor="moviePreviewsSavePath" className="col-sm-2 col-form-label">Ruta de previews de peliculas</label>
+                                <label htmlFor="language" className="col-sm-2 col-form-label">Idioma</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="moviePreviewsSavePath"
-                                        name="moviePreviewsSavePath"
-                                        value={this.state.currentRow.moviePreviewsSavePath}
+                                        id="language"
+                                        name="language"
+                                        value={this.state.currentRow.language}
                                         onChange={this.handleChange}
-                                    />
-                                </div>
+                                    /></div>
                             </div>
                         </div>
                     </ModalBody>
@@ -330,7 +378,7 @@ export class SystemConfigurationsList extends Component {
                 </Modal>
                 {/* Delete Modal */}
                 <Modal isOpen={this.state.deleteModal}>
-                    <ModalHeader>Consecutivo</ModalHeader>
+                    <ModalHeader>Usuario</ModalHeader>
                     <ModalBody>
                         Estás seguro de que quieres eliminar el registro {this.state.currentRow.id}?
                     </ModalBody>

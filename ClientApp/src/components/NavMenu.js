@@ -43,28 +43,28 @@ export class NavMenu extends Component {
                                     <NavLink tag={Link} className="text-light" to="/">Home</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-light" to="/add-movie">Peliculas</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/ProductBooks">Libros</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-light" to="/add-book">Libros</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/ProductMovies">Peliculas</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-light" to="/add-music">Musica</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/ProductSongs">Musica</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-light" to="/users">Usuarios</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/Users">Usuarios</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-light" to="/ProductBookSubjects">Tematica de Libro</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/ProductBookSubjects">Tematica de libro</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-light" to="/ProductMovieActors">Actores de Peliculas</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/ProductMovieActors">Actores de peliculas</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-light" to="/ProductMovieGenres">Genero de Peliculas</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/ProductMovieGenres">Generos de peliculas</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-light" to="/ProductSongGenres">Genero de Canciones</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/ProductSongGenres">Genero de canciones</NavLink>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink tag={Link} className="text-light" to="/UserRoles">Roles de Usuario</NavLink>
@@ -79,7 +79,7 @@ export class NavMenu extends Component {
                                     <NavLink tag={Link} className="text-light" to="/ChangeLogs">Auditoria</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-light" to="/login">Iniciar sesión</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/Login">Iniciar sesión</NavLink>
                                 </NavItem>
                             </ul>
                         </Collapse>

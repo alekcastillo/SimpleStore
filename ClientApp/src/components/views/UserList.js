@@ -3,15 +3,14 @@ import ReactDOM from 'react-dom';
 import MaterialTable from "material-table";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap'
 
-export class TableConsecutivesList extends Component {
-    static baseUrl = 'api/tableconsecutives/';
-    static displayName = TableConsecutivesList.name;
+export class UserList extends Component {
+    static baseUrl = 'api/users/';
+    static displayName = UserList.name;
     static emptyRow = {
-        table: '',
-        current: '',
-        prefix: '',
-        rangeMin: '',
-        rangeMax: '',
+        firstName: '',
+        lastName1: '',
+        lastName2: '',
+        password: '',
     }
 
     constructor(props) {
@@ -42,7 +41,7 @@ export class TableConsecutivesList extends Component {
     }
 
     copyEmptyRow() {
-        return Object.assign({}, TableConsecutivesList.emptyRow);
+        return Object.assign({}, UserList.emptyRow);
     }
 
     toggleEditModal(rowData) {
@@ -77,7 +76,7 @@ export class TableConsecutivesList extends Component {
 
     async addRow() {
         // We call the backend to add the new row
-        await fetch(TableConsecutivesList.baseUrl, {
+        await fetch(UserList.baseUrl, {
             method: 'POST',
             body: JSON.stringify(this.state.currentRow),
             headers: {
@@ -96,7 +95,7 @@ export class TableConsecutivesList extends Component {
 
     async editRow() {
         // We call the backend to edit the row
-        await fetch(TableConsecutivesList.baseUrl + this.state.currentRow.id, {
+        await fetch(UserList.baseUrl + this.state.currentRow.id, {
             method: 'PUT',
             body: JSON.stringify(this.state.currentRow),
             headers: {
@@ -114,7 +113,13 @@ export class TableConsecutivesList extends Component {
     }
 
     async handleSave(e) {
-        console.log(this.state.currentRow);
+        for (const [key, value] of Object.entries(UserList.emptyRow)) {
+            if (this.state.currentRow[key] == value) {
+                this.showAlert('Todos los campos deben ser llenados!', 'danger');
+                this.toggleEditModal();
+                return;
+            }
+        }
         if (this.state.currentRow.id) {
             await this.editRow();
         } else {
@@ -124,7 +129,7 @@ export class TableConsecutivesList extends Component {
 
     async deleteRow() {
         // We call the backend to delete the row
-        await fetch(TableConsecutivesList.baseUrl + this.state.currentRow.id, {
+        await fetch(UserList.baseUrl + this.state.currentRow.id, {
             method: 'DELETE',
         }).then(response => {
             this.toggleDeleteModal();
@@ -133,7 +138,7 @@ export class TableConsecutivesList extends Component {
             this.tableRef.current.onQueryChange();
         }).catch(error => {
             this.showAlert('Ha ocurrido un error!', 'danger');
-            console.log(error);
+            console.log(error)
         });
     }
 
@@ -148,7 +153,7 @@ export class TableConsecutivesList extends Component {
             <div style={{ maxWidth: '100%' }}>
                 <div id="alerts"></div>
                 <MaterialTable
-                    title="Consecutivos"
+                    title="Usuarios"
                     tableRef={this.tableRef}
                     options={{
                         search: false,
@@ -161,34 +166,31 @@ export class TableConsecutivesList extends Component {
                             field: "id",
                         },
                         {
-                            title: "Tabla",
-                            field: "table",
+                            title: "Correo electronico",
+                            field: "email",
                         },
                         {
-                            title: "Número actual",
-                            field: "current",
-                            numeric: true,
+                            title: "Nombre",
+                            field: "firstName",
                         },
                         {
-                            title: "Prefijo",
-                            field: "prefix",
+                            title: "Primer apellido",
+                            field: "lastName1",
                         },
                         {
-                            title: "Minimo del rango",
-                            field: "rangeMin",
-                            numeric: true,
+                            title: "Segundo apellido",
+                            field: "lastName2",
                         },
                         {
-                            title: "Máximo del rango",
-                            field: "rangeMax",
-                            numeric: true,
+                            title: "Contraseña",
+                            field: "password",
                         },
                     ]}
                     data={query =>
                         // We make the request to gather the table data
                         new Promise((resolve, reject) => {
                             console.log(query);
-                            fetch(TableConsecutivesList.baseUrl)
+                            fetch(UserList.baseUrl)
                                 .then(response => response.json())
                                 .then(result => {
                                     // Here we do the pagination using the query passed
@@ -236,69 +238,65 @@ export class TableConsecutivesList extends Component {
                     <ModalBody>
                         <div className="form-group">
                             <div className="form-group row">
-                                <label htmlFor="table" className="col-sm-2 col-form-label">Tabla</label>
+                                <label htmlFor="email" className="col-sm-2 col-form-label">Correo Electronico</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="table"
-                                        name="table"
-                                        value={this.state.currentRow.table}
+                                        id="email"
+                                        name="email"
+                                        value={this.state.currentRow.email}
                                         onChange={this.handleChange}
                                     />
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="current" className="col-sm-2 col-form-label">Número actual</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        id="current"
-                                        name="current"
-                                        value={this.state.currentRow.current}
-                                        onChange={this.handleChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="prefix" className="col-sm-2 col-form-label">Prefijo (opcional)</label>
+                                <label htmlFor="firstName" className="col-sm-2 col-form-label">Nombre</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="prefix"
-                                        name="prefix"
-                                        value={this.state.currentRow.prefix}
+                                        id="firstName"
+                                        name="firstName"
+                                        value={this.state.currentRow.firstName}
                                         onChange={this.handleChange}
-                                    />
-                                </div>
+                                    /></div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="rangeMin" className="col-sm-2 col-form-label">Minimo del rango (opcional)</label>
+                                <label htmlFor="lastName1" className="col-sm-2 col-form-label">Primer apellido</label>
                                 <div className="col-sm-10">
                                     <input
-                                        type="number"
+                                        type="text"
                                         className="form-control"
-                                        id="rangeMin"
-                                        name="rangeMin"
-                                        value={this.state.currentRow.rangeMin}
+                                        id="lastName1"
+                                        name="lastName1"
+                                        value={this.state.currentRow.lastName1}
                                         onChange={this.handleChange}
-                                    />
-                                </div>
+                                    /></div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="rangeMax" className="col-sm-2 col-form-label">Máximo del rango (opcional)</label>
+                                <label htmlFor="lastName2" className="col-sm-2 col-form-label">Segundo apellido</label>
                                 <div className="col-sm-10">
                                     <input
-                                        type="number"
+                                        type="text"
                                         className="form-control"
-                                        id="rangeMax"
-                                        name="rangeMax"
-                                        value={this.state.currentRow.rangeMax}
+                                        id="lastName2"
+                                        name="lastName2"
+                                        value={this.state.currentRow.lastName2}
                                         onChange={this.handleChange}
-                                    />
-                                </div>
+                                    /></div>
+                            </div>
+                            <div className="form-group row">
+                                <label htmlFor="password" className="col-sm-2 col-form-label">Contraseña</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="password"
+                                        name="password"
+                                        value={this.state.currentRow.password}
+                                        onChange={this.handleChange}
+                                    /></div>
                             </div>
                         </div>
                     </ModalBody>
@@ -309,7 +307,7 @@ export class TableConsecutivesList extends Component {
                 </Modal>
                 {/* Delete Modal */}
                 <Modal isOpen={this.state.deleteModal}>
-                    <ModalHeader>Consecutivo</ModalHeader>
+                    <ModalHeader>Usuario</ModalHeader>
                     <ModalBody>
                         Estás seguro de que quieres eliminar el registro {this.state.currentRow.id}?
                     </ModalBody>

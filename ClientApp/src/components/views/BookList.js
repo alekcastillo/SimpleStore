@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import MaterialTable from "material-table";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap'
 
-export class MovieLists extends Component {
-    static baseUrl = 'api/ProductMovies/';
-    static displayName = MovieLists.name;
+export class BookList extends Component {
+    static baseUrl = 'api/ProductBooks/';
+    static displayName = BookList.name;
     static emptyRow = {
         title: '',
         price: '',
@@ -44,7 +44,7 @@ export class MovieLists extends Component {
     }
 
     copyEmptyRow() {
-        return JSON.parse(JSON.stringify(MovieLists.emptyRow));
+        return JSON.parse(JSON.stringify(BookList.emptyRow));
     }
 
     flattenData(data) {
@@ -98,7 +98,7 @@ export class MovieLists extends Component {
 
     async addRow() {
         // We call the backend to add the new row
-        await fetch(MovieLists.baseUrl, {
+        await fetch(BookList.baseUrl, {
             method: 'POST',
             body: JSON.stringify(this.state.currentRow),
             headers: {
@@ -117,7 +117,7 @@ export class MovieLists extends Component {
 
     async editRow() {
         // We call the backend to edit the row
-        await fetch(MovieLists.baseUrl + this.state.currentRow.code, {
+        await fetch(BookList.baseUrl + this.state.currentRow.code, {
             method: 'PUT',
             body: JSON.stringify(this.state.currentRow),
             headers: {
@@ -142,7 +142,7 @@ export class MovieLists extends Component {
     }
 
     async handleSave(e) {
-        for (const [key, value] of Object.entries(MovieLists.emptyRow)) {
+        for (const [key, value] of Object.entries(BookList.emptyRow)) {
             if (this.state.currentRow[key] == value) {
                 this.showAlert('Todos los campos deben ser llenados!', 'danger');
                 this.toggleEditModal();
@@ -158,7 +158,7 @@ export class MovieLists extends Component {
 
     async deleteRow() {
         // We call the backend to delete the row
-        await fetch(MovieLists.baseUrl + this.state.currentRow.id, {
+        await fetch(BookList.baseUrl + this.state.currentRow.id, {
             method: 'DELETE',
         }).then(response => {
             this.toggleDeleteModal();
@@ -232,7 +232,7 @@ export class MovieLists extends Component {
                         // We make the request to gather the table data
                         new Promise((resolve, reject) => {
                             console.log(query);
-                            fetch(MovieLists.baseUrl)
+                            fetch(BookList.baseUrl)
                                 .then(response => response.json())
                                 .then(result => {
                                     // Here we do the pagination using the query passed
