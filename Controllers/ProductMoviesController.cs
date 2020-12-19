@@ -27,7 +27,10 @@ namespace SimpleStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductMovie>>> GetProductMovies()
         {
-            return await _context.ProductMovies.ToListAsync();
+            return await _context.ProductMovies
+                .Include(productMovie => productMovie.Product)
+                .Include(productMovie => productMovie.Genre)
+                .ToListAsync();
         }
 
         // GET: api/ProductMovies/5
@@ -99,7 +102,8 @@ namespace SimpleStore.Controllers
             _context.Products.Add(product);
 
             var movie = new ProductMovie();
-            movie.Code = ""; //Consecutivo;
+            var moviesConsecutive = _context.TableConsecutives.Single(tableConsecutive => tableConsecutive.Table == "Peliculas");
+            movie.Code = moviesConsecutive.GetCurrentCode(); //Consecutivo;
             movie.Product = product;
 
             var movieGenre = _context.ProductMovieGenres.Single(movieGenre => movieGenre.Id == productMovieDao.GenreId);

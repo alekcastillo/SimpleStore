@@ -170,6 +170,7 @@ namespace SimpleStore.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<ProductBook>> DeleteProductBook(string id)
         {
+            
             var productBook = await _context.ProductBooks.FindAsync(id);
 
             ChangeLog.AddDeletedLog(_context, "Books", productBook);
@@ -178,7 +179,6 @@ namespace SimpleStore.Controllers
             {
                 return NotFound();
             }
-
             _context.ProductBooks.Remove(productBook);
             await _context.SaveChangesAsync();
 

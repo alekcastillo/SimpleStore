@@ -5,15 +5,16 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'react
 
 export class MovieList extends Component {
     static baseUrl = 'api/ProductMovies/';
+    static productUrl = 'api/Products/';
     static displayName = MovieList.name;
     static emptyRow = {
         title: '',
         price: '',
         releaseYear: '',
         language: '',
-        subjectId: '',
-        author: '',
-        publisher: '',
+        genreId: '',
+        filePath: '',
+        previewFilePath: ''
     }
 
     constructor(props) {
@@ -57,10 +58,10 @@ export class MovieList extends Component {
                 price: rowData.product.price,
                 releaseYear: rowData.product.releaseYear,
                 language: rowData.product.language,
-                subjectId: rowData.subject.id,
+                genreId: rowData.genre.id,
                 id: rowData.product.id,
-                author: rowData.author,
-                publisher: rowData.publisher,
+                filePath: rowData.product.filePath,
+                previewFilePath: rowData.product.previewFilePath
             })
         }
         return flatData;
@@ -158,7 +159,10 @@ export class MovieList extends Component {
 
     async deleteRow() {
         // We call the backend to delete the row
-        await fetch(MovieList.baseUrl + this.state.currentRow.id, {
+        await fetch(MovieList.baseUrl + this.state.currentRow.code, {
+            method: 'DELETE',
+        });
+        fetch(MovieList.productUrl + this.state.currentRow.id, {
             method: 'DELETE',
         }).then(response => {
             this.toggleDeleteModal();
@@ -200,20 +204,12 @@ export class MovieList extends Component {
                             field: "title",
                         },
                         {
-                            title: "Autor",
-                            field: "author",
-                        },
-                        {
                             title: "Categoria",
-                            field: "subjectId",
+                            field: "genreId",
                         },
                         {
                             title: "Producto",
                             field: "id",
-                        },
-                        {
-                            title: "Publisher",
-                            field: "publisher",
                         },
                         {
                             title: "Precio",
@@ -227,6 +223,14 @@ export class MovieList extends Component {
                             title: "Idioma",
                             field: "language",
                         },
+                        {
+                            title: "File path",
+                            field: "filePath",
+                        },
+                        {
+                            title: "Preview",
+                            field: "previewFilePath",
+                        },
                     ]}
                     data={query =>
                         // We make the request to gather the table data
@@ -239,6 +243,7 @@ export class MovieList extends Component {
                                     // by the table. We have no backend pagination
                                     let initialIndex = query.pageSize * query.page;
                                     let finalIndex = query.pageSize * (query.page + 1);
+                                    console.log(result);
                                     let flatResult = this.flattenData(result);
                                     resolve({
                                         data: flatResult.slice(initialIndex, finalIndex),
@@ -294,45 +299,17 @@ export class MovieList extends Component {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="author" className="col-sm-2 col-form-label">Autor</label>
+                                <label htmlFor="genreId" className="col-sm-2 col-form-label">Categoria</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="author"
-                                        name="author"
-                                        value={this.state.currentRow.author}
-                                        onChange={this.handleChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="subjectId" className="col-sm-2 col-form-label">Categoria</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="subjectId"
-                                        name="subjectId"
-                                        value={this.state.currentRow.name}
+                                        id="genreId"
+                                        name="genreId"
+                                        value={this.state.currentRow.genreId}
                                         onChange={this.handleChange}
                                     /></div>
-                            </div>
-                            
-                            
-
-                            <div className="form-group row">
-                                <label htmlFor="publisher" className="col-sm-2 col-form-label">Editorial</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="publisher"
-                                        name="publisher"
-                                        value={this.state.currentRow.publisher}
-                                        onChange={this.handleChange}
-                                    /></div>
-                            </div>
+                            </div>                        
                             <div className="form-group row">
                                 <label htmlFor="price" className="col-sm-2 col-form-label">Precio</label>
                                 <div className="col-sm-10">
@@ -366,6 +343,30 @@ export class MovieList extends Component {
                                         id="language"
                                         name="language"
                                         value={this.state.currentRow.language}
+                                        onChange={this.handleChange}
+                                    /></div>
+                            </div>
+                            <div className="form-group row">
+                                <label htmlFor="filePath" className="col-sm-2 col-form-label">File path</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="filePath"
+                                        name="filePath"
+                                        value={this.state.currentRow.filePath}
+                                        onChange={this.handleChange}
+                                    /></div>
+                            </div>
+                            <div className="form-group row">
+                                <label htmlFor="previewFilePath" className="col-sm-2 col-form-label">Preview path</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="previewFilePath"
+                                        name="previewFilePath"
+                                        value={this.state.currentRow.previewFilePath}
                                         onChange={this.handleChange}
                                     /></div>
                             </div>

@@ -112,7 +112,7 @@ namespace SimpleStore.Controllers
             song.Label = productSongDao.Label;
             song.Product = product;
 
-            var songsConsecutive = _context.TableConsecutives.Single(tableConsecutive => tableConsecutive.Table == "Canciones");
+            var songsConsecutive = _context.TableConsecutives.Single(tableConsecutive => tableConsecutive.Table == "Musica");
             song.Code = songsConsecutive.GetCurrentCode();
             song.InterpretationType = (SongInterpretationType)productSongDao.InterpretationType;
 

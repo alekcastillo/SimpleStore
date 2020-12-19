@@ -5,6 +5,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'react
 
 export class BookList extends Component {
     static baseUrl = 'api/ProductBooks/';
+    static productUrl = 'api/Products/';
     static displayName = BookList.name;
     static emptyRow = {
         title: '',
@@ -14,6 +15,8 @@ export class BookList extends Component {
         subjectId: '',
         author: '',
         publisher: '',
+        filePath: '',
+        previewFilePath: ''
     }
 
     constructor(props) {
@@ -61,6 +64,8 @@ export class BookList extends Component {
                 id: rowData.product.id,
                 author: rowData.author,
                 publisher: rowData.publisher,
+                filePath: rowData.product.filePath,
+                previewFilePath: rowData.product.previewFilePath
             })
         }
         return flatData;
@@ -158,7 +163,10 @@ export class BookList extends Component {
 
     async deleteRow() {
         // We call the backend to delete the row
-        await fetch(BookList.baseUrl + this.state.currentRow.id, {
+        await fetch(BookList.baseUrl + this.state.currentRow.code, {
+            method: 'DELETE',
+        });
+        fetch(BookList.productUrl + this.state.currentRow.id, {
             method: 'DELETE',
         }).then(response => {
             this.toggleDeleteModal();
@@ -226,6 +234,14 @@ export class BookList extends Component {
                         {
                             title: "Idioma",
                             field: "language",
+                        },
+                        {
+                            title: "File path",
+                            field: "filePath",
+                        },
+                        {
+                            title: "Preview",
+                            field: "previewFilePath",
                         },
                     ]}
                     data={query =>
@@ -366,6 +382,30 @@ export class BookList extends Component {
                                         id="language"
                                         name="language"
                                         value={this.state.currentRow.language}
+                                        onChange={this.handleChange}
+                                    /></div>
+                            </div>
+                            <div className="form-group row">
+                                <label htmlFor="filePath" className="col-sm-2 col-form-label">File path</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="filePath"
+                                        name="filePath"
+                                        value={this.state.currentRow.filePath}
+                                        onChange={this.handleChange}
+                                    /></div>
+                            </div>
+                            <div className="form-group row">
+                                <label htmlFor="previewFilePath" className="col-sm-2 col-form-label">Preview path</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="previewFilePath"
+                                        name="previewFilePath"
+                                        value={this.state.currentRow.previewFilePath}
                                         onChange={this.handleChange}
                                     /></div>
                             </div>

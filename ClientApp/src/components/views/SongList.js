@@ -5,6 +5,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert, Row } from '
 
 export class SongList extends Component {
     static baseUrl = 'api/ProductSongs/';
+    static productUrl = 'api/Products/';
     static displayName = SongList.name;
     static emptyRow = {
         title: '',
@@ -168,7 +169,10 @@ export class SongList extends Component {
 
     async deleteRow() {
         // We call the backend to delete the row
-        await fetch(SongList.baseUrl + this.state.currentRow.id, {
+        await fetch(SongList.baseUrl + this.state.currentRow.code, {
+            method: 'DELETE',
+        });
+        fetch(SongList.productUrl + this.state.currentRow.id, {
             method: 'DELETE',
         }).then(response => {
             this.toggleDeleteModal();
@@ -227,7 +231,7 @@ export class SongList extends Component {
                         },
                         {
                             title: "Genero",
-                            field: "genere",
+                            field: "genreId",
                         },
                         {
                             title: "File Path",
