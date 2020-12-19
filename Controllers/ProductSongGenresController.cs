@@ -55,6 +55,8 @@ namespace SimpleStore.Controllers
 
             _context.Entry(productSongGenre).State = EntityState.Modified;
 
+            ChangeLog.AddUpdatedLog(_context, "SongGenres", productSongGenre);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -81,6 +83,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult<ProductSongGenre>> PostProductSongGenre(ProductSongGenre productSongGenre)
         {
             _context.ProductSongGenres.Add(productSongGenre);
+
+            ChangeLog.AddCreatedLog(_context, "SongGenres", productSongGenre);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProductSongGenre", new { id = productSongGenre.Id }, productSongGenre);
@@ -91,6 +96,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult<ProductSongGenre>> DeleteProductSongGenre(Guid id)
         {
             var productSongGenre = await _context.ProductSongGenres.FindAsync(id);
+
+            ChangeLog.AddDeletedLog(_context, "SongGenres", productSongGenre);
+
             if (productSongGenre == null)
             {
                 return NotFound();

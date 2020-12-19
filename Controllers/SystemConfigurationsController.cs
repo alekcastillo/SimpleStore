@@ -55,6 +55,8 @@ namespace SimpleStore.Controllers
 
             _context.Entry(systemConfiguration).State = EntityState.Modified;
 
+            ChangeLog.AddUpdatedLog(_context, "SystemConfigurations", systemConfiguration);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -81,6 +83,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult<SystemConfiguration>> PostSystemConfiguration(SystemConfiguration systemConfiguration)
         {
             _context.SystemConfigurations.Add(systemConfiguration);
+
+            ChangeLog.AddCreatedLog(_context, "SystemConfigurations", systemConfiguration);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetSystemConfiguration", new { id = systemConfiguration.Id }, systemConfiguration);
@@ -91,6 +96,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult<SystemConfiguration>> DeleteSystemConfiguration(Guid id)
         {
             var systemConfiguration = await _context.SystemConfigurations.FindAsync(id);
+
+            ChangeLog.AddDeletedLog(_context, "SystemConfigurations", systemConfiguration);
+
             if (systemConfiguration == null)
             {
                 return NotFound();

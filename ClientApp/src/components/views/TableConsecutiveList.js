@@ -3,17 +3,15 @@ import ReactDOM from 'react-dom';
 import MaterialTable from "material-table";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap'
 
-export class BooksLists extends Component {
-    static baseUrl = 'api/ProductBooks/';
-    static displayName = BooksLists.name;
+export class TableConsecutiveList extends Component {
+    static baseUrl = 'api/tableconsecutives/';
+    static displayName = TableConsecutiveList.name;
     static emptyRow = {
-        title: '',
-        price: '',
-        releaseYear: '',
-        language: '',
-        subjectId: '',
-        author: '',
-        publisher: '',
+        table: '',
+        current: '',
+        prefix: '',
+        rangeMin: '',
+        rangeMax: '',
     }
 
     constructor(props) {
@@ -44,26 +42,7 @@ export class BooksLists extends Component {
     }
 
     copyEmptyRow() {
-        return JSON.parse(JSON.stringify(BooksLists.emptyRow));
-    }
-
-    flattenData(data) {
-        let flatData = [];
-        for (let rowData of data) {
-            console.log(rowData);
-            flatData.push({
-                code: rowData.code,
-                title: rowData.product.title,
-                price: rowData.product.price,
-                releaseYear: rowData.product.releaseYear,
-                language: rowData.product.language,
-                subjectId: rowData.subject.id,
-                id: rowData.product.id,
-                author: rowData.author,
-                publisher: rowData.publisher,
-            })
-        }
-        return flatData;
+        return Object.assign({}, TableConsecutiveList.emptyRow);
     }
 
     toggleEditModal(rowData) {
@@ -98,7 +77,7 @@ export class BooksLists extends Component {
 
     async addRow() {
         // We call the backend to add the new row
-        await fetch(BooksLists.baseUrl, {
+        await fetch(TableConsecutiveList.baseUrl, {
             method: 'POST',
             body: JSON.stringify(this.state.currentRow),
             headers: {
@@ -117,20 +96,13 @@ export class BooksLists extends Component {
 
     async editRow() {
         // We call the backend to edit the row
-        await fetch(BooksLists.baseUrl + this.state.currentRow.code, {
+        await fetch(TableConsecutiveList.baseUrl + this.state.currentRow.id, {
             method: 'PUT',
             body: JSON.stringify(this.state.currentRow),
             headers: {
                 'content-type': 'application/json'
             }
-
-        }).then(fetch('api/Products/' + this.state.currentRow.id, {
-            method: 'PUT',
-            body: JSON.stringify(this.state.currentRow),
-            headers: {
-                'content-type': 'application/json'
-            }
-        })).then(response => {
+        }).then(response => {
             this.toggleEditModal();
             this.showAlert('Registro actualizado con exito', 'success');
             // We reload the table
@@ -142,14 +114,8 @@ export class BooksLists extends Component {
     }
 
     async handleSave(e) {
-        for (const [key, value] of Object.entries(BooksLists.emptyRow)) {
-            if (this.state.currentRow[key] == value) {
-                this.showAlert('Todos los campos deben ser llenados!', 'danger');
-                this.toggleEditModal();
-                return;
-            }
-        }
-        if (this.state.currentRow.code) {
+        console.log(this.state.currentRow);
+        if (this.state.currentRow.id) {
             await this.editRow();
         } else {
             await this.addRow();
@@ -158,7 +124,7 @@ export class BooksLists extends Component {
 
     async deleteRow() {
         // We call the backend to delete the row
-        await fetch(BooksLists.baseUrl + this.state.currentRow.id, {
+        await fetch(TableConsecutiveList.baseUrl + this.state.currentRow.id, {
             method: 'DELETE',
         }).then(response => {
             this.toggleDeleteModal();
@@ -167,7 +133,7 @@ export class BooksLists extends Component {
             this.tableRef.current.onQueryChange();
         }).catch(error => {
             this.showAlert('Ha ocurrido un error!', 'danger');
-            console.log(error)
+            console.log(error);
         });
     }
 
@@ -177,13 +143,12 @@ export class BooksLists extends Component {
         }
     }
 
-
     render() {
         return (
             <div style={{ maxWidth: '100%' }}>
                 <div id="alerts"></div>
                 <MaterialTable
-                    title="Libros"
+                    title="Consecutivos"
                     tableRef={this.tableRef}
                     options={{
                         search: false,
@@ -192,56 +157,46 @@ export class BooksLists extends Component {
                     }}
                     columns={[
                         {
-                            title: "Code",
-                            field: "code",
-                        },
-                        {
-                            title: "Titulo",
-                            field: "title",
-                        },
-                        {
-                            title: "Autor",
-                            field: "author",
-                        },
-                        {
-                            title: "Categoria",
-                            field: "subjectId",
-                        },
-                        {
-                            title: "Producto",
+                            title: "ID",
                             field: "id",
                         },
                         {
-                            title: "Publisher",
-                            field: "publisher",
+                            title: "Tabla",
+                            field: "table",
                         },
                         {
-                            title: "Precio",
-                            field: "price",
+                            title: "Número actual",
+                            field: "current",
+                            numeric: true,
                         },
                         {
-                            title: "Año de publicacion",
-                            field: "releaseYear",
+                            title: "Prefijo",
+                            field: "prefix",
                         },
                         {
-                            title: "Idioma",
-                            field: "language",
+                            title: "Minimo del rango",
+                            field: "rangeMin",
+                            numeric: true,
+                        },
+                        {
+                            title: "Máximo del rango",
+                            field: "rangeMax",
+                            numeric: true,
                         },
                     ]}
                     data={query =>
                         // We make the request to gather the table data
                         new Promise((resolve, reject) => {
                             console.log(query);
-                            fetch(BooksLists.baseUrl)
+                            fetch(TableConsecutiveList.baseUrl)
                                 .then(response => response.json())
                                 .then(result => {
                                     // Here we do the pagination using the query passed
                                     // by the table. We have no backend pagination
                                     let initialIndex = query.pageSize * query.page;
                                     let finalIndex = query.pageSize * (query.page + 1);
-                                    let flatResult = this.flattenData(result);
                                     resolve({
-                                        data: flatResult.slice(initialIndex, finalIndex),
+                                        data: result.slice(initialIndex, finalIndex),
                                         page: query.page,
                                         totalCount: result.length,
                                     })
@@ -277,97 +232,73 @@ export class BooksLists extends Component {
                 />
                 {/* Create / Edit Modal */}
                 <Modal isOpen={this.state.editModal}>
-                    <ModalHeader>Libro</ModalHeader>
+                    <ModalHeader>Usuario</ModalHeader>
                     <ModalBody>
                         <div className="form-group">
                             <div className="form-group row">
-                                <label htmlFor="title" className="col-sm-2 col-form-label">Titulo</label>
+                                <label htmlFor="table" className="col-sm-2 col-form-label">Tabla</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="title"
-                                        name="title"
-                                        value={this.state.currentRow.title}
+                                        id="table"
+                                        name="table"
+                                        value={this.state.currentRow.table}
                                         onChange={this.handleChange}
                                     />
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="author" className="col-sm-2 col-form-label">Autor</label>
+                                <label htmlFor="current" className="col-sm-2 col-form-label">Número actual</label>
                                 <div className="col-sm-10">
                                     <input
-                                        type="text"
+                                        type="number"
                                         className="form-control"
-                                        id="author"
-                                        name="author"
-                                        value={this.state.currentRow.author}
+                                        id="current"
+                                        name="current"
+                                        value={this.state.currentRow.current}
                                         onChange={this.handleChange}
                                     />
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="subjectId" className="col-sm-2 col-form-label">Categoria</label>
+                                <label htmlFor="prefix" className="col-sm-2 col-form-label">Prefijo (opcional)</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="subjectId"
-                                        name="subjectId"
-                                        value={this.state.currentRow.name}
+                                        id="prefix"
+                                        name="prefix"
+                                        value={this.state.currentRow.prefix}
                                         onChange={this.handleChange}
-                                    /></div>
-                            </div>
-                            
-                            
-
-                            <div className="form-group row">
-                                <label htmlFor="publisher" className="col-sm-2 col-form-label">Editorial</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="publisher"
-                                        name="publisher"
-                                        value={this.state.currentRow.publisher}
-                                        onChange={this.handleChange}
-                                    /></div>
+                                    />
+                                </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="price" className="col-sm-2 col-form-label">Precio</label>
+                                <label htmlFor="rangeMin" className="col-sm-2 col-form-label">Minimo del rango (opcional)</label>
                                 <div className="col-sm-10">
                                     <input
-                                        type="text"
+                                        type="number"
                                         className="form-control"
-                                        id="price"
-                                        name="price"
-                                        value={this.state.currentRow.price}
+                                        id="rangeMin"
+                                        name="rangeMin"
+                                        value={this.state.currentRow.rangeMin}
                                         onChange={this.handleChange}
-                                    /></div>
+                                    />
+                                </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="releaseYear" className="col-sm-2 col-form-label">Año de publicación</label>
+                                <label htmlFor="rangeMax" className="col-sm-2 col-form-label">Máximo del rango (opcional)</label>
                                 <div className="col-sm-10">
                                     <input
-                                        type="text"
+                                        type="number"
                                         className="form-control"
-                                        id="releaseYear"
-                                        name="releaseYear"
-                                        value={this.state.currentRow.releaseYear}
+                                        id="rangeMax"
+                                        name="rangeMax"
+                                        value={this.state.currentRow.rangeMax}
                                         onChange={this.handleChange}
-                                    /></div>
-                            </div>  
-                            <div className="form-group row">
-                                <label htmlFor="language" className="col-sm-2 col-form-label">Idioma</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="language"
-                                        name="language"
-                                        value={this.state.currentRow.language}
-                                        onChange={this.handleChange}
-                                    /></div>
+                                    />
+                                </div>
                             </div>
                         </div>
                     </ModalBody>
@@ -378,7 +309,7 @@ export class BooksLists extends Component {
                 </Modal>
                 {/* Delete Modal */}
                 <Modal isOpen={this.state.deleteModal}>
-                    <ModalHeader>Usuario</ModalHeader>
+                    <ModalHeader>Consecutivo</ModalHeader>
                     <ModalBody>
                         Estás seguro de que quieres eliminar el registro {this.state.currentRow.id}?
                     </ModalBody>

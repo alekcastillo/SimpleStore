@@ -26,6 +26,7 @@ namespace SimpleStore.Infrastructure
         public DbSet<TableConsecutive> TableConsecutives { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<ChangeLog> ChangeLogs { get; set; }
 
         public SimpleStoreDbContext(DbContextOptions<SimpleStoreDbContext> options)
             : base(options) {}

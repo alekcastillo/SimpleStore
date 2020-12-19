@@ -60,6 +60,8 @@ namespace SimpleStore.Controllers
 
             _context.Entry(productSong).State = EntityState.Modified;
 
+            ChangeLog.AddUpdatedLog(_context, "Songs", productSong);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -78,60 +80,6 @@ namespace SimpleStore.Controllers
 
             return NoContent();
         }
-
-
-        /*
-
-         [HttpPost]
-public async Task<ActionResult<ProductBook>> PostProductBook(ProductBookDAO productBookDao)
-{
-    var product = new Product();
-    product.Title = productBookDao.Title;
-    product.Price = productBookDao.Price;
-    product.ReleaseYear = productBookDao.ReleaseYear;
-    product.Language = productBookDao.Language;
-    product.Type = ProductType.Book;
-    product.FilePath = productBookDao.FilePath;
-    product.PreviewFilePath = productBookDao.PreviewFilePath;
-
-    _context.Products.Add(product);
-
-    var book = new ProductBook();
-    book.Code = ""; //Consecutivo;
-    book.Product = product;
-
-    var bookSubject = _context.ProductBookSubjects.Single(bookSubject => bookSubject.Id == productBookDao.SubjectId);
-    book.Subject = bookSubject;
-    book.Author = productBookDao.Author;
-    book.Publisher = productBookDao.Publisher;
-
-    _context.ProductBooks.Add(book);
-
-    try
-    {
-        await _context.SaveChangesAsync();
-    }
-    catch (DbUpdateException)
-    {
-        if (ProductExists(product.Id))
-        {
-            return Conflict();
-        }
-        else if (ProductBookExists(book.Code))
-        {
-            return Conflict();
-        }
-        else
-        {
-            throw;
-        }
-    }
-
-    return CreatedAtAction("GetProductBook", new { id = book.Code }, book);
-}
-
-
- */
 
         // POST: api/ProductSongs
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -164,21 +112,14 @@ public async Task<ActionResult<ProductBook>> PostProductBook(ProductBookDAO prod
             song.Label = productSongDao.Label;
             song.Product = product;
 
-            //MIENTRAS SE CONSTRUYE EL CONSECUTIVO
-            Random rnd = new Random();
-            int x = rnd.Next(0, 1000000000);
-            song.Code = x.ToString();
-
-            if (productSongDao.InterpretationType == 1)
-            {
-                song.InterpretationType = SongInterpretationType.Group;
-            }
-            else
-            {
-                song.InterpretationType = SongInterpretationType.Solo;
-            }
+            var songsConsecutive = _context.TableConsecutives.Single(tableConsecutive => tableConsecutive.Table == "Musica");
+            song.Code = songsConsecutive.GetCurrentCode();
+            song.InterpretationType = (SongInterpretationType)productSongDao.InterpretationType;
 
             _context.ProductSongs.Add(song);
+
+            ChangeLog.AddCreatedLog(_context, "Songs", song);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -203,6 +144,9 @@ public async Task<ActionResult<ProductBook>> PostProductBook(ProductBookDAO prod
         public async Task<ActionResult<ProductSong>> DeleteProductSong(string id)
         {
             var productSong = await _context.ProductSongs.FindAsync(id);
+
+            ChangeLog.AddDeletedLog(_context, "Songs", productSong);
+
             if (productSong == null)
             {
                 return NotFound();

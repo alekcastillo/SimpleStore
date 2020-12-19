@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom';
 import MaterialTable from "material-table";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap'
 
-export class UsersList extends Component {
-    static baseUrl = 'api/users/';
-    static displayName = UsersList.name;
+export class SystemConfigurationList extends Component {
+    static baseUrl = 'api/systemconfigurations/';
+    static displayName = SystemConfigurationList.name;
     static emptyRow = {
-        firstName: '',
-        lastName1: '',
-        lastName2: '',
-        password: '',
+        booksSavePath: '',
+        bookPreviewsSavePath: '',
+        songsSavePath: '',
+        songPreviewsSavePath: '',
+        moviesSavePath: '',
+        moviePreviewsSavePath: '',
     }
 
     constructor(props) {
@@ -41,7 +43,7 @@ export class UsersList extends Component {
     }
 
     copyEmptyRow() {
-        return Object.assign({}, UsersList.emptyRow);
+        return Object.assign({}, SystemConfigurationList.emptyRow);
     }
 
     toggleEditModal(rowData) {
@@ -76,7 +78,7 @@ export class UsersList extends Component {
 
     async addRow() {
         // We call the backend to add the new row
-        await fetch(UsersList.baseUrl, {
+        await fetch(SystemConfigurationList.baseUrl, {
             method: 'POST',
             body: JSON.stringify(this.state.currentRow),
             headers: {
@@ -95,7 +97,7 @@ export class UsersList extends Component {
 
     async editRow() {
         // We call the backend to edit the row
-        await fetch(UsersList.baseUrl + this.state.currentRow.id, {
+        await fetch(SystemConfigurationList.baseUrl + this.state.currentRow.id, {
             method: 'PUT',
             body: JSON.stringify(this.state.currentRow),
             headers: {
@@ -113,7 +115,7 @@ export class UsersList extends Component {
     }
 
     async handleSave(e) {
-        for (const [key, value] of Object.entries(UsersList.emptyRow)) {
+        for (const [key, value] of Object.entries(SystemConfigurationList.emptyRow)) {
             if (this.state.currentRow[key] == value) {
                 this.showAlert('Todos los campos deben ser llenados!', 'danger');
                 this.toggleEditModal();
@@ -129,7 +131,7 @@ export class UsersList extends Component {
 
     async deleteRow() {
         // We call the backend to delete the row
-        await fetch(UsersList.baseUrl + this.state.currentRow.id, {
+        await fetch(SystemConfigurationList.baseUrl + this.state.currentRow.id, {
             method: 'DELETE',
         }).then(response => {
             this.toggleDeleteModal();
@@ -153,7 +155,7 @@ export class UsersList extends Component {
             <div style={{ maxWidth: '100%' }}>
                 <div id="alerts"></div>
                 <MaterialTable
-                    title="Usuarios"
+                    title="Configuraciones"
                     tableRef={this.tableRef}
                     options={{
                         search: false,
@@ -166,31 +168,35 @@ export class UsersList extends Component {
                             field: "id",
                         },
                         {
-                            title: "Correo electronico",
-                            field: "email",
+                            title: "Ruta de libros",
+                            field: "booksSavePath",
                         },
                         {
-                            title: "Nombre",
-                            field: "firstName",
+                            title: "Ruta de previews de libros",
+                            field: "bookPreviewsSavePath",
                         },
                         {
-                            title: "Primer apellido",
-                            field: "lastName1",
+                            title: "Ruta de canciones",
+                            field: "songsSavePath",
                         },
                         {
-                            title: "Segundo apellido",
-                            field: "lastName2",
+                            title: "Ruta de previews de canciones",
+                            field: "songPreviewsSavePath",
                         },
                         {
-                            title: "Contraseña",
-                            field: "password",
+                            title: "Ruta de peliculas",
+                            field: "moviesSavePath",
+                        },
+                        {
+                            title: "Ruta de previews de peliculas",
+                            field: "moviePreviewsSavePath",
                         },
                     ]}
                     data={query =>
                         // We make the request to gather the table data
                         new Promise((resolve, reject) => {
                             console.log(query);
-                            fetch(UsersList.baseUrl)
+                            fetch(SystemConfigurationList.baseUrl)
                                 .then(response => response.json())
                                 .then(result => {
                                     // Here we do the pagination using the query passed
@@ -238,65 +244,82 @@ export class UsersList extends Component {
                     <ModalBody>
                         <div className="form-group">
                             <div className="form-group row">
-                                <label htmlFor="email" className="col-sm-2 col-form-label">Correo Electronico</label>
+                                <label htmlFor="booksSavePath" className="col-sm-2 col-form-label">Ruta de libros</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="email"
-                                        name="email"
-                                        value={this.state.currentRow.email}
+                                        id="booksSavePath"
+                                        name="booksSavePath"
+                                        value={this.state.currentRow.booksSavePath}
                                         onChange={this.handleChange}
                                     />
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="firstName" className="col-sm-2 col-form-label">Nombre</label>
+                                <label htmlFor="bookPreviewsSavePath" className="col-sm-2 col-form-label">Ruta de previews de libros</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="firstName"
-                                        name="firstName"
-                                        value={this.state.currentRow.firstName}
+                                        id="bookPreviewsSavePath"
+                                        name="bookPreviewsSavePath"
+                                        value={this.state.currentRow.bookPreviewsSavePath}
                                         onChange={this.handleChange}
-                                    /></div>
+                                    />
+                                </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="lastName1" className="col-sm-2 col-form-label">Primer apellido</label>
+                                <label htmlFor="songsSavePath" className="col-sm-2 col-form-label">Ruta de canciones</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="lastName1"
-                                        name="lastName1"
-                                        value={this.state.currentRow.lastName1}
+                                        id="songsSavePath"
+                                        name="songsSavePath"
+                                        value={this.state.currentRow.songsSavePath}
                                         onChange={this.handleChange}
-                                    /></div>
+                                    />
+                                </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="lastName2" className="col-sm-2 col-form-label">Segundo apellido</label>
+                                <label htmlFor="songPreviewsSavePath" className="col-sm-2 col-form-label">Ruta de previews de canciones</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="lastName2"
-                                        name="lastName2"
-                                        value={this.state.currentRow.lastName2}
+                                        id="songPreviewsSavePath"
+                                        name="songPreviewsSavePath"
+                                        value={this.state.currentRow.songPreviewsSavePath}
                                         onChange={this.handleChange}
-                                    /></div>
+                                    />
+                                </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="password" className="col-sm-2 col-form-label">Contraseña</label>
+                                <label htmlFor="moviesSavePath" className="col-sm-2 col-form-label">Ruta de peliculas</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="password"
-                                        name="password"
-                                        value={this.state.currentRow.password}
+                                        id="moviesSavePath"
+                                        name="moviesSavePath"
+                                        value={this.state.currentRow.moviesSavePath}
                                         onChange={this.handleChange}
-                                    /></div>
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label htmlFor="moviePreviewsSavePath" className="col-sm-2 col-form-label">Ruta de previews de peliculas</label>
+                                <div className="col-sm-10">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="moviePreviewsSavePath"
+                                        name="moviePreviewsSavePath"
+                                        value={this.state.currentRow.moviePreviewsSavePath}
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </ModalBody>
@@ -307,7 +330,7 @@ export class UsersList extends Component {
                 </Modal>
                 {/* Delete Modal */}
                 <Modal isOpen={this.state.deleteModal}>
-                    <ModalHeader>Usuario</ModalHeader>
+                    <ModalHeader>Consecutivo</ModalHeader>
                     <ModalBody>
                         Estás seguro de que quieres eliminar el registro {this.state.currentRow.id}?
                     </ModalBody>

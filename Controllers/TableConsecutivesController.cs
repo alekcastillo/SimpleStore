@@ -50,6 +50,8 @@ namespace SimpleStore.Controllers
 
             _context.Entry(tableConsecutive).State = EntityState.Modified;
 
+            ChangeLog.AddUpdatedLog(_context, "TableConsecutives", tableConsecutive);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -72,7 +74,16 @@ namespace SimpleStore.Controllers
         [HttpPost]
         public async Task<ActionResult<TableConsecutive>> PostTableConsecutive(TableConsecutive tableConsecutive)
         {
+            if (tableConsecutive.Prefix != "")
+                tableConsecutive.UsesPrefix = true;
+
+            if (tableConsecutive.RangeMin != null || tableConsecutive.RangeMax != null)
+                tableConsecutive.UsesRange = true;
+
             _context.TableConsecutives.Add(tableConsecutive);
+
+            ChangeLog.AddCreatedLog(_context, "TableConsecutives", tableConsecutive);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTableConsecutive", new { id = tableConsecutive.Id }, tableConsecutive);
@@ -82,6 +93,9 @@ namespace SimpleStore.Controllers
         public async Task<ActionResult<TableConsecutive>> DeleteTableConsecutive(Guid id)
         {
             var tableConsecutive = await _context.TableConsecutives.FindAsync(id);
+
+            ChangeLog.AddDeletedLog(_context, "TableConsecutives", tableConsecutive);
+
             if (tableConsecutive == null)
             {
                 return NotFound();

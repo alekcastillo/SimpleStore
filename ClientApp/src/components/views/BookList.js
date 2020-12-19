@@ -1,26 +1,23 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import MaterialTable from "material-table";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert, Row } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap'
 
-export class SongsLists extends Component {
-    static baseUrl = 'api/ProductSongs/';
-    static displayName = SongsLists.name;
+export class BookList extends Component {
+    static baseUrl = 'api/ProductBooks/';
+    static productUrl = 'api/Products/';
+    static displayName = BookList.name;
     static emptyRow = {
         title: '',
         price: '',
         releaseYear: '',
         language: '',
-        genreId: '',
+        subjectId: '',
+        author: '',
+        publisher: '',
         filePath: '',
-        previewFilePath: '',
-        artist: '',
-        album: '',
-        country: '',
-        label: '',
+        previewFilePath: ''
     }
-
-
 
     constructor(props) {
         super(props);
@@ -50,7 +47,7 @@ export class SongsLists extends Component {
     }
 
     copyEmptyRow() {
-        return JSON.parse(JSON.stringify(SongsLists.emptyRow));
+        return JSON.parse(JSON.stringify(BookList.emptyRow));
     }
 
     flattenData(data) {
@@ -63,14 +60,12 @@ export class SongsLists extends Component {
                 price: rowData.product.price,
                 releaseYear: rowData.product.releaseYear,
                 language: rowData.product.language,
-                genreId: rowData.genre.id,
+                subjectId: rowData.subject.id,
                 id: rowData.product.id,
+                author: rowData.author,
+                publisher: rowData.publisher,
                 filePath: rowData.product.filePath,
-                previewFilePath: rowData.product.previewFilePath,
-                artist: rowData.artist,
-                album: rowData.album,
-                country: rowData.country,
-                label: rowData.label,
+                previewFilePath: rowData.product.previewFilePath
             })
         }
         return flatData;
@@ -108,7 +103,7 @@ export class SongsLists extends Component {
 
     async addRow() {
         // We call the backend to add the new row
-        await fetch(SongsLists.baseUrl, {
+        await fetch(BookList.baseUrl, {
             method: 'POST',
             body: JSON.stringify(this.state.currentRow),
             headers: {
@@ -127,7 +122,7 @@ export class SongsLists extends Component {
 
     async editRow() {
         // We call the backend to edit the row
-        await fetch(SongsLists.baseUrl + this.state.currentRow.code, {
+        await fetch(BookList.baseUrl + this.state.currentRow.code, {
             method: 'PUT',
             body: JSON.stringify(this.state.currentRow),
             headers: {
@@ -152,7 +147,7 @@ export class SongsLists extends Component {
     }
 
     async handleSave(e) {
-        for (const [key, value] of Object.entries(SongsLists.emptyRow)) {
+        for (const [key, value] of Object.entries(BookList.emptyRow)) {
             if (this.state.currentRow[key] == value) {
                 this.showAlert('Todos los campos deben ser llenados!', 'danger');
                 this.toggleEditModal();
@@ -168,7 +163,10 @@ export class SongsLists extends Component {
 
     async deleteRow() {
         // We call the backend to delete the row
-        await fetch(SongsLists.baseUrl + this.state.currentRow.id, {
+        await fetch(BookList.baseUrl + this.state.currentRow.code, {
+            method: 'DELETE',
+        });
+        fetch(BookList.productUrl + this.state.currentRow.id, {
             method: 'DELETE',
         }).then(response => {
             this.toggleDeleteModal();
@@ -193,7 +191,7 @@ export class SongsLists extends Component {
             <div style={{ maxWidth: '100%' }}>
                 <div id="alerts"></div>
                 <MaterialTable
-                    title="Musica"
+                    title="Libros"
                     tableRef={this.tableRef}
                     options={{
                         search: false,
@@ -210,8 +208,20 @@ export class SongsLists extends Component {
                             field: "title",
                         },
                         {
+                            title: "Autor",
+                            field: "author",
+                        },
+                        {
+                            title: "Categoria",
+                            field: "subjectId",
+                        },
+                        {
                             title: "Producto",
                             field: "id",
+                        },
+                        {
+                            title: "Publisher",
+                            field: "publisher",
                         },
                         {
                             title: "Precio",
@@ -226,39 +236,19 @@ export class SongsLists extends Component {
                             field: "language",
                         },
                         {
-                            title: "Genero",
-                            field: "genere",
-                        },
-                        {
-                            title: "File Path",
+                            title: "File path",
                             field: "filePath",
                         },
                         {
-                            title: "File Preview",
+                            title: "Preview",
                             field: "previewFilePath",
-                        },
-                        {
-                            title: "Artista",
-                            field: "artist",
-                        },
-                        {
-                            title: "Album",
-                            field: "album",
-                        },
-                        {
-                            title: "Pais",
-                            field: "country",
-                        },
-                        {
-                            title: "Label",
-                            field: "label",
                         },
                     ]}
                     data={query =>
                         // We make the request to gather the table data
                         new Promise((resolve, reject) => {
                             console.log(query);
-                            fetch(SongsLists.baseUrl)
+                            fetch(BookList.baseUrl)
                                 .then(response => response.json())
                                 .then(result => {
                                     // Here we do the pagination using the query passed
@@ -320,27 +310,27 @@ export class SongsLists extends Component {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="genreId" className="col-sm-2 col-form-label">Genero</label>
+                                <label htmlFor="author" className="col-sm-2 col-form-label">Autor</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="genreId"
-                                        name="genreId"
-                                        value={this.state.currentRow.genere}
+                                        id="author"
+                                        name="author"
+                                        value={this.state.currentRow.author}
                                         onChange={this.handleChange}
                                     />
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="artist" className="col-sm-2 col-form-label">Artista</label>
+                                <label htmlFor="subjectId" className="col-sm-2 col-form-label">Categoria</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="artist"
-                                        name="artist"
-                                        value={this.state.currentRow.artist}
+                                        id="subjectId"
+                                        name="subjectId"
+                                        value={this.state.currentRow.name}
                                         onChange={this.handleChange}
                                     /></div>
                             </div>
@@ -348,14 +338,14 @@ export class SongsLists extends Component {
                             
 
                             <div className="form-group row">
-                                <label htmlFor="country" className="col-sm-2 col-form-label">Pais</label>
+                                <label htmlFor="publisher" className="col-sm-2 col-form-label">Editorial</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="country"
-                                        name="country"
-                                        value={this.state.currentRow.country}
+                                        id="publisher"
+                                        name="publisher"
+                                        value={this.state.currentRow.publisher}
                                         onChange={this.handleChange}
                                     /></div>
                             </div>
@@ -371,18 +361,6 @@ export class SongsLists extends Component {
                                         onChange={this.handleChange}
                                     /></div>
                             </div>
-                            <div className="form-group row">
-                                <label htmlFor="album" className="col-sm-2 col-form-label">Album</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="album"
-                                        name="album"
-                                        value={this.state.currentRow.album}
-                                        onChange={this.handleChange}
-                                    /></div>
-                            </div>  
                             <div className="form-group row">
                                 <label htmlFor="releaseYear" className="col-sm-2 col-form-label">Año de publicación</label>
                                 <div className="col-sm-10">
@@ -408,19 +386,7 @@ export class SongsLists extends Component {
                                     /></div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="label" className="col-sm-2 col-form-label">Label</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="label"
-                                        name="label"
-                                        value={this.state.currentRow.label}
-                                        onChange={this.handleChange}
-                                    /></div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="filePath" className="col-sm-2 col-form-label">File Path</label>
+                                <label htmlFor="filePath" className="col-sm-2 col-form-label">File path</label>
                                 <div className="col-sm-10">
                                     <input
                                         type="text"
